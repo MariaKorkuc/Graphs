@@ -2,36 +2,32 @@
 #include <iomanip>
 #include <list>
 
-
-using namespace std;
-
 void setData(int&, int&);
 
 int** makeAdjacencyMatrix(int);
 int** makeIncidenceMatrix(int, int);
-list<int>* makeAdjacencyList(int);
+std::list<int>* makeAdjacencyList(int);
 
-void fill(int**, int**, list<int>*, int, int);
+void encode(int**, int**, std::list<int>*, int, int);
 
 void printAdjacencyMatrix(int**, int);
 void printIncidenceMatrix(int**, int, int);
-void printAdjacencyList(list<int>*, int);
+void printAdjacencyList(std::list<int>*, int);
 
-void clear(int**, int**, list<int>*, int, int);
+void clear(int**, int**, std::list<int>*, int, int);
 
 int** adjacencyToIncidence(int** , const int&, const int&);
 int** incidenceToAdjacency(int** , const int&, const int&);
-int** listToAdjacency(list<int>*, const int&);
-list<int>*  adjacencyToList(int** , const int&);
-list<int>* incidenceToList(int** , const int&, const int&);
-int** listToIncidence(list<int>* , const int&, const int&);
-
+int** listToAdjacency(std::list<int>*, const int&);
+std::list<int>*  adjacencyToList(int** , const int&);
+std::list<int>* incidenceToList(int** , const int&, const int&);
+int** listToIncidence(std::list<int>* , const int&, const int&);
 
 
 int main( ){
     int n, m;
     int **adjacencyMatrix, **incidenceMatrix;
-    list<int>* adjacencyList;
+    std::list<int>* adjacencyList;
 
 
     setData(n,m);
@@ -41,54 +37,70 @@ int main( ){
     adjacencyList = makeAdjacencyList(n);
 
 
-    fill(adjacencyMatrix,incidenceMatrix,adjacencyList,n ,m);
+    encode(adjacencyMatrix,incidenceMatrix,adjacencyList,n ,m);
 
 
     printAdjacencyMatrix(adjacencyMatrix, n);
-    cout<<endl;
+    std::cout<<std::endl;
+
+//    These functions are here for testing, they will eventually be placed in other files.
+//    If you want to test them, uncomment the code
 
 //    int** A = listToAdjacency(adjacencyList,n);
 //    printAdjacencyMatrix(A,n);
-//    cout<<endl;
+//    std::cout<<std::endl;
 //
 //    int** B = incidenceToAdjacency(incidenceMatrix,n,m);
 //    printAdjacencyMatrix(B,n);
-//    cout<<endl;
+//    std::cout<<std::endl;
+
+//    End
+
 
     printIncidenceMatrix(incidenceMatrix,  n,  m);
-    cout<<endl;
+    std::cout<<std::endl;
+
+//    These functions are here for testing, they will eventually be placed in other files.
+//    If you want to test them, uncomment the code
 
 //    int** C = adjacencyToIncidence(adjacencyMatrix, n, m);
 //    printIncidenceMatrix(C,  n,  m);
-//    cout<<endl;
+//    std::cout<<std::endl;
 //
 //    int** D = listToIncidence(adjacencyList,n,m);
 //    printIncidenceMatrix(D,n,m);
-//    cout<<endl;
+//    std::cout<<std::endl;
+
+//    End
 
     printAdjacencyList(adjacencyList,  n);
-    cout<<endl;
+    std::cout<<std::endl;
 
-//    list<int>* list1 = adjacencyToList(adjacencyMatrix,n);
+//    These functions are here for testing, they will eventually be placed in other files.
+//    If you want to test them, uncomment the code
+
+//    std::list<int>* list1 = adjacencyToList(adjacencyMatrix,n);
 //    printAdjacencyList(list1,  n);
-//    cout<<endl;
+//    std::cout<<std::endl;
 //
-//    list<int>* list2 = incidenceToList(incidenceMatrix,n,m);
+//    std::list<int>* list2 = incidenceToList(incidenceMatrix,n,m);
 //    printAdjacencyList(list2,n);
-//    cout<<endl;
+//    std::cout<<std::endl;
+
+//    End
 
     clear(adjacencyMatrix, incidenceMatrix, adjacencyList, n, m);
     return 0;
 }
 
 void setData(int &n, int &m){
-    cout<<"Set the number of vertices: ";
-    cin >> n;
-    cout<<"Set the number of edges: ";
-    cin >> m;
+    std::cout<<"Set the number of vertices: ";
+    std::cin >> n;
+    std::cout << "Set the number of edges: ";
+    std::cin >> m;
 
     if(m > n*(n-1)/2){
-        cout<<"Error! Too many edges for this number of vertices";
+        std::cout<<"Error! Too many edges for this number of vertices";
         exit (EXIT_FAILURE);
     }
 }
@@ -119,32 +131,33 @@ int** makeIncidenceMatrix(const int n, const int m){
     return incidenceMatrix;
 }
 
-list<int>* makeAdjacencyList(const int n){
-    list<int>* adjacencyList;
+std::list<int>* makeAdjacencyList(const int n){
+    std::list<int>* adjacencyList;
     adjacencyList = new std::list<int>[n];
     return adjacencyList;
 }
 
-void fill(int** matrix1, int** matrix2, list<int>* list, const int n, const int m){
-    cout<<"Remember! The vertices are numbered from 0."<<endl;
+// A function that encodes graphs
+void encode(int** matrix1, int** matrix2, std::list<int>* list, const int n, const int m){
+    std::cout<<"Remember! The vertices are numbered from 0."<<std::endl;
     int v1, v2;
     for(int  i = 0; i < m; ++i ){
-        cout<<"Set the initial vertex of "<< i + 1 <<" edge: ";
-        cin >> v1;
+        std::cout<<"Set the initial vertex of "<< i + 1 <<" edge: ";
+        std::cin >> v1;
 
-        cout<<"Set the end vertex "<< i + 1 <<" edge: ";
-        cin >> v2;
+        std::cout<<"Set the end vertex "<< i + 1 <<" edge: ";
+        std::cin >> v2;
 
         if(v1 >= n or v2 >= n){
-            cout << "This edge does not exist. Use valid vertices! Remember that the vertices are numbered from 0. "<<endl;
+            std::cout << "This edge does not exist. Use valid vertices! Remember that the vertices are numbered from 0. "<<std::endl;
             i--;
         }
         else if(v1 == v2){
-            cout << "This is a simple graph, no loops are allowed"<<endl;
+            std::cout << "This is a simple graph, no loops are allowed"<<std::endl;
             i--;
         }
         else if(matrix1[v1][v2] != 0){
-            cout << "This edge exist already!";
+            std::cout << "This edge exist already!";
             i--;
         }
 
@@ -162,55 +175,55 @@ void fill(int** matrix1, int** matrix2, list<int>* list, const int n, const int 
 }
 
 void printAdjacencyMatrix( int** matrix, const int n){
-    cout << endl;
+    std::cout << std::endl;
 
     for(int i = 0; i<=n; ++i){
         if(i == 0){
-            cout << setw(4) <<"\\";
+            std::cout << std::setw(4) <<"\\";
         }
         else {
-            cout << setw(3) << "v" << i-1;
+            std::cout << std::setw(3) << "v" << i-1;
         }
     }
-    cout<<endl;
+    std::cout<<std::endl;
     for( int i = 0; i < n; ++i ) {
-        cout << setw ( 3 ) <<"v"<< i;
+        std::cout << std::setw ( 3 ) <<"v"<< i;
         for (int j = 0; j < n; ++j) {
-            cout <<setw ( 4 )<< matrix[i][j];
+            std::cout <<std::setw ( 4 )<< matrix[i][j];
         }
-        cout<<endl;
+        std::cout<<std::endl;
     }
 }
     void printIncidenceMatrix( int** matrix, const int n, const int m){
         for(int i = 0; i<=m; ++i){
             if(i == 0){
-                cout << setw(4) <<"\\";
+                std::cout << std::setw(4) <<"\\";
             }
             else {
-                cout << setw(3) << "e" << i;
+                std::cout << std::setw(3) << "e" << i;
             }
         }
-        cout<<endl;
+        std::cout<<std::endl;
         for( int i = 0; i < n; ++i ) {
-            cout << setw ( 3 ) <<"v"<< i;
+            std::cout << std::setw ( 3 ) <<"v"<< i;
             for (int j = 0; j < m; ++j) {
-                cout <<setw ( 4 )<< matrix[i][j];
+                std::cout <<std::setw ( 4 )<< matrix[i][j];
             }
-            cout<<endl;
+            std::cout<<std::endl;
         }
     }
 
-    void printAdjacencyList( list<int>* list, const int n){
+    void printAdjacencyList( std::list<int>* list, const int n){
         for( int i = 0; i < n; ++i ) {
-            cout << "v"<<i<<": ";
+            std::cout << "v"<<i<<": ";
             for (int x : list[i]) {
-                cout << setw(3)<<"v" << x ;
+                std::cout << std::setw(3)<<"v" << x ;
             }
-            cout<<endl;
+            std::cout<<std::endl;
         }
     }
 
-void clear(int** matrix1, int** matrix2, list<int>* list, const int n, const int m){
+void clear(int** matrix1, int** matrix2, std::list<int>* list, const int n, const int m){
     for( int i = 0; i < n; ++i )
         delete[] matrix1[i];
     for( int i = 0; i < m; ++i )
@@ -219,6 +232,10 @@ void clear(int** matrix1, int** matrix2, list<int>* list, const int n, const int
     delete[] matrix2;
     delete[] list;
 }
+
+
+
+// Functions that convert one encoding into another
 
 int** adjacencyToIncidence(int** adjacency, const int &n, const int &m){
     int cols = n;
@@ -263,7 +280,7 @@ int** incidenceToAdjacency(int** incidence, const int &n, const int &m){
     return adjacency;
 }
 
-int** listToAdjacency(list<int>* list, const int &n){
+int** listToAdjacency(std::list<int>* list, const int &n){
     int** adjacency = makeAdjacencyMatrix(n);
     for( int i = 0; i < n; ++i ) {
         for (int x : list[i]) {
@@ -274,8 +291,8 @@ int** listToAdjacency(list<int>* list, const int &n){
     return adjacency;
 }
 
-list<int>* adjacencyToList(int** adjacency, const int& n) {
-    list<int> *list = makeAdjacencyList(n);
+std::list<int>* adjacencyToList(int** adjacency, const int& n) {
+    std::list<int> *list = makeAdjacencyList(n);
     for (int i = 0; i < n; ++i) {
         for (int j = 0; j < n; ++j) {
             if(adjacency[i][j] == 1)
@@ -285,11 +302,11 @@ list<int>* adjacencyToList(int** adjacency, const int& n) {
     return list;
 }
 
-list<int>* incidenceToList(int** incidence, const int& n, const int& m){
+std::list<int>* incidenceToList(int** incidence, const int& n, const int& m){
     int edges = m;
     int vertices = n;
 
-    list<int>* list = makeAdjacencyList(n);
+    std::list<int>* list = makeAdjacencyList(n);
 
     for (int edge = 0; edge < edges; ++edge) {
         int a = 0, b = 0, vertex = 0;
@@ -313,7 +330,7 @@ list<int>* incidenceToList(int** incidence, const int& n, const int& m){
     return list;
 }
 
-int** listToIncidence(list<int>* list , const int& n, const int& m){
+int** listToIncidence(std::list<int>* list , const int& n, const int& m){
 
     int edge = 0;
     int **incidence = makeIncidenceMatrix(n,m);
