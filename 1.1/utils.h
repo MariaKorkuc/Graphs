@@ -1,6 +1,7 @@
 #include <iostream>
 #include <iomanip>
 #include <list>
+#include <fstream>
 
 
 //Wiktor pr. 1 ex. 1
@@ -11,6 +12,8 @@ void printAdjacencyMatrix(int**, int);
 void printIncidenceMatrix(int**, int, int);
 void printAdjacencyList(std::list<int>*, int);
 
+//Maciek pr. 1 ex. 2
+bool file_exist(const char*);
 
 //Maria pr.1 ex.3
 float r_prob();

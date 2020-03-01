@@ -89,3 +89,9 @@ float r_prob()
 {
     return static_cast<float>(rand()) / static_cast<float>(RAND_MAX);
 }
+
+bool file_exist(const char *fileName)
+{
+    std::ifstream infile(fileName);
+    return infile.good();
+}
