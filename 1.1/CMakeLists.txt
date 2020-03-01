@@ -1,0 +1,6 @@
+cmake_minimum_required(VERSION 2.6)
+project(random)
+include_directories(include)
+set(SOURCES random_graph.cpp utils.cpp)
+add_executable(random ${SOURCES})
+add_compile_options(-Wall -g)
