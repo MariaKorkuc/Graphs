@@ -1,2 +1,2 @@
 # Graphs
-Shared repository for graphs course projects
+Shared repository for graphs course projects.
