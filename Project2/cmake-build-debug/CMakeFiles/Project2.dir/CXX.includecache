@@ -1,0 +1,24 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+C:/Users/wikto/Desktop/22/Graphs/Project2/main.cpp
+iostream
+-
+algorithm
+-
+fstream
+-
+random
+-
+utils.h
+C:/Users/wikto/Desktop/22/Graphs/Project2/utils.h
+
+C:/Users/wikto/Desktop/22/Graphs/Project2/utils.h
+list
+-
+
