@@ -4,24 +4,14 @@
 
 void setData(int&, int&);
 
-int** makeAdjacencyMatrix(int);
-int** makeIncidenceMatrix(int, int);
-std::list<int>* makeAdjacencyList(int);
+
 
 void encode(int**, int**, std::list<int>*, int, int);
 
-void printAdjacencyMatrix(int**, int);
-void printIncidenceMatrix(int**, int, int);
-void printAdjacencyList(std::list<int>*, int);
 
 void clear(int**, int**, std::list<int>*, int, int);
 
-int** adjacencyToIncidence(int** , const int&, const int&);
-int** incidenceToAdjacency(int** , const int&, const int&);
-int** listToAdjacency(std::list<int>*, const int&);
-std::list<int>*  adjacencyToList(int** , const int&);
-std::list<int>* incidenceToList(int** , const int&, const int&);
-int** listToIncidence(std::list<int>* , const int&, const int&);
+
 
 
 int main( ){
@@ -105,37 +95,6 @@ void setData(int &n, int &m){
     }
 }
 
-int** makeAdjacencyMatrix(const int n){
-    int** adjacencyMatrix = new int*[n];
-    for(int i = 0; i < n; ++i ) {
-        adjacencyMatrix[i] = new int[n];
-    }
-    for( int i = 0; i < n; ++i ) {
-        for (int j = 0; j < n; ++j) {
-            adjacencyMatrix[i][j] = 0;
-        }
-    }
-    return adjacencyMatrix;
-}
-
-int** makeIncidenceMatrix(const int n, const int m){
-    int** incidenceMatrix = new int*[n];
-    for(int i = 0; i < n; ++i ) {
-        incidenceMatrix[i] = new int[m];
-    }
-    for( int i = 0; i < n; ++i ) {
-        for (int j = 0; j < m; ++j) {
-            incidenceMatrix[i][j] = 0;
-        }
-    }
-    return incidenceMatrix;
-}
-
-std::list<int>* makeAdjacencyList(const int n){
-    std::list<int>* adjacencyList;
-    adjacencyList = new std::list<int>[n];
-    return adjacencyList;
-}
 
 // A function that encodes graphs
 void encode(int** matrix1, int** matrix2, std::list<int>* list, const int n, const int m){
@@ -237,112 +196,5 @@ void clear(int** matrix1, int** matrix2, std::list<int>* list, const int n, cons
 
 // Functions that convert one encoding into another
 
-int** adjacencyToIncidence(int** adjacency, const int &n, const int &m){
-    int cols = n;
-    int edge = 0;
-    int **incidence = makeIncidenceMatrix(n,m);
 
-    for (int col = 0; col < cols; ++col) {
-        for (int row = 0; row <= col; ++row) {
-            if (adjacency[col][row]) {
-                incidence[row][edge] = incidence[col][edge] = 1;
-                ++edge;
-            }
-        }
-    }
-    return incidence;
-}
-
-int** incidenceToAdjacency(int** incidence, const int &n, const int &m){
-    int edges = m;
-    int vertices = n;
-
-    int** adjacency = makeAdjacencyMatrix(n);
-
-    for (int edge = 0; edge < edges; ++edge) {
-        int a = 0, b = 0, vertex = 0;
-        bool flag = false;
-        for (; vertex < vertices && !flag; ++vertex) {
-            if (incidence[edge][vertex]) {
-                a = vertex;
-                flag = true;
-            }
-        }
-        flag = false;
-        for (; vertex < vertices && !flag; ++vertex) {
-            if (incidence[edge][vertex]) {
-                b = vertex;
-                flag = true;
-            }
-        }
-        adjacency[a][b] = adjacency[b][a] = 1;
-    }
-    return adjacency;
-}
-
-int** listToAdjacency(std::list<int>* list, const int &n){
-    int** adjacency = makeAdjacencyMatrix(n);
-    for( int i = 0; i < n; ++i ) {
-        for (int x : list[i]) {
-            adjacency[i][x] = 1;
-            adjacency[x][i] = 1;
-        }
-    }
-    return adjacency;
-}
-
-std::list<int>* adjacencyToList(int** adjacency, const int& n) {
-    std::list<int> *list = makeAdjacencyList(n);
-    for (int i = 0; i < n; ++i) {
-        for (int j = 0; j < n; ++j) {
-            if(adjacency[i][j] == 1)
-                list[i].push_back(j);
-        }
-    }
-    return list;
-}
-
-std::list<int>* incidenceToList(int** incidence, const int& n, const int& m){
-    int edges = m;
-    int vertices = n;
-
-    std::list<int>* list = makeAdjacencyList(n);
-
-    for (int edge = 0; edge < edges; ++edge) {
-        int a = 0, b = 0, vertex = 0;
-        bool flag = false;
-        for (; vertex < vertices && !flag; ++vertex) {
-            if (incidence[edge][vertex]) {
-                a = vertex;
-                flag = true;
-            }
-        }
-        flag = false;
-        for (; vertex < vertices && !flag; ++vertex) {
-            if (incidence[edge][vertex]) {
-                b = vertex;
-                flag = true;
-            }
-        }
-        list[a].push_back(b);
-        list[b].push_back(a);
-    }
-    return list;
-}
-
-int** listToIncidence(std::list<int>* list , const int& n, const int& m){
-
-    int edge = 0;
-    int **incidence = makeIncidenceMatrix(n,m);
-
-    for (int i = 0; i < n; ++i) {
-        for (int x : list[i]) {
-            if (x) {
-                incidence[x][edge] = incidence[i][edge] = 1;
-                ++edge;
-            }
-        }
-    }
-    return incidence;
-}
 

@@ -1,0 +1,44 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+C:/Users/wikto/Desktop/22/Graphs/Project1/codingGraphs.cpp
+codingGraphs.h
+C:/Users/wikto/Desktop/22/Graphs/Project1/codingGraphs.h
+iostream
+-
+
+C:/Users/wikto/Desktop/22/Graphs/Project1/codingGraphs.h
+utils.h
+C:/Users/wikto/Desktop/22/Graphs/Project1/utils.h
+
+C:/Users/wikto/Desktop/22/Graphs/Project1/main.cpp
+iostream
+-
+fstream
+-
+cmath
+-
+utils.h
+C:/Users/wikto/Desktop/22/Graphs/Project1/utils.h
+codingGraphs.h
+C:/Users/wikto/Desktop/22/Graphs/Project1/codingGraphs.h
+
+C:/Users/wikto/Desktop/22/Graphs/Project1/utils.cpp
+utils.h
+C:/Users/wikto/Desktop/22/Graphs/Project1/utils.h
+iostream
+-
+iomanip
+-
+fstream
+-
+
+C:/Users/wikto/Desktop/22/Graphs/Project1/utils.h
+list
+-
+
