@@ -42,6 +42,8 @@ int main(int argc, char* argv[]) {
                 std::cout<<"Choose available option"<<std::endl;
             }
         }while(choice != 'p' && choice != 'm');
+
+        return 0;
     }
 
     else {
