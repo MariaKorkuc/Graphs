@@ -2,11 +2,9 @@
 #include <cstdio>
 #include <vector>
 #include "utils.h"
+#include "RandomGraph.h"
 
-using namespace std;
-
-void make_probability_graph();
-void make_random_graph();
+//using namespace std;
 
 //returns number of ends for particular edge using incidency matrix
 int check_col(int** incM,const int n, int num);
@@ -15,30 +13,30 @@ int check_col(int** incM,const int n, int num);
 int check_row(int** matrix, const int m, int num);
 
 
-int main()
-{
-    char choice;
-
-    do{
-        cout<<"Choose model of random graph: "<<endl<<"Type 'p' for G(n,p) graph, 'm'  for G(n,m) graph: ";
-        choice = getchar();
-
-        if(choice == 'p')
-        {
-            make_probability_graph();
-        }
-        else if(choice == 'm')
-        {
-            make_random_graph();
-        }
-        else
-        {
-            cout<<"Choose available option"<<endl;
-        }
-    }while(choice != 'p' && choice != 'm');
-
-    return 0;
-}
+//int main()
+//{
+//    char choice;
+//
+//    do{
+//        std::cout<<"Choose model of random graph: "<<std::endl<<"Type 'p' for G(n,p) graph, 'm'  for G(n,m) graph: ";
+//        choice = getchar();
+//
+//        if(choice == 'p')
+//        {
+//            make_probability_graph();
+//        }
+//        else if(choice == 'm')
+//        {
+//            make_random_graph();
+//        }
+//        else
+//        {
+//            std::cout<<"Choose available option"<<std::endl;
+//        }
+//    }while(choice != 'p' && choice != 'm');
+//
+//    return 0;
+//}
 
 //create graph, where probability of existence of each edge is p
 //we display adjecency matrix of random graph
@@ -46,22 +44,22 @@ void make_probability_graph()
 {
     int n=0;
     float p;
-    cout<<endl<<"Insert number of vertices: ";
-    cin>>n;
-    cout<<endl;
-    cout<<"Insert probability (0 <= p <= 1): ";
-    cin>>p;
-    cout<<endl;
+    std::cout<<std::endl<<"Insert number of vertices: ";
+    std::cin>>n;
+    std::cout<<std::endl;
+    std::cout<<"Insert probability (0 <= p <= 1): ";
+    std::cin>>p;
+    std::cout<<std::endl;
 
     if(n<=0)
     {
-        cout<<"Wrong number of vertices!\n";
+        std::cout<<"Wrong number of vertices!\n";
         exit(EXIT_FAILURE);
     }
 
     if(p>1 || p<0)
     {
-        cout<<"Impossible probability!\n";
+        std::cout<<"Impossible probability!\n";
         exit(EXIT_FAILURE);
     }
 
@@ -108,23 +106,23 @@ void make_probability_graph()
 void make_random_graph()
 {
     int n,m;
-    cout<<endl<<"Insert number of vertices: ";
-    cin>>n;
-    cout<<endl;
-    cout<<"Insert number of edges: ";
-    cin>>m;
-    cout<<endl;
+    std::cout<<std::endl<<"Insert number of vertices: ";
+    std::cin>>n;
+    std::cout<<std::endl;
+    std::cout<<"Insert number of edges: ";
+    std::cin>>m;
+    std::cout<<std::endl;
 
     if(n<=0 || m<0)
     {
-        cout<<"Impossible number of vertices or edges!\n";
+        std::cout<<"Impossible number of vertices or edges!\n";
         exit(EXIT_FAILURE);
     }
 
     //maximum number of edges in undirected graph - n(n-1)/2
     if(m > n*(n-1)/2)
     {
-        cout<<"Too many edges\n";
+        std::cout<<"Too many edges\n";
         exit(EXIT_FAILURE);
     }
 

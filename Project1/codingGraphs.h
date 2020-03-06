@@ -12,3 +12,4 @@ int** listToAdjacency(std::list<int>*, const int&);
 std::list<int>*  adjacencyToList(int** , const int&);
 std::list<int>* incidenceToList(int** , const int&, const int&);
 int** listToIncidence(std::list<int>* , const int&, const int&);
+int countEdges(int**, const int&);

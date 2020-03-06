@@ -14,6 +14,17 @@ void setData(int &n, int &m){
     }
 }
 
+int countEdges(int** adjacencyMatrix, const int& n){
+    int m = 0;
+    for (int i = 0; i < n; ++i) {
+        for (int j = i; j < n; ++j) {
+            if (adjacencyMatrix[i][j] == 1)
+                ++m;
+        }
+    }
+    return m;
+}
+
 // A function that encodes graphs
 void encode(int** matrix1, const int n, const int m){
     std::cout<<"Remember! The vertices are numbered from 0."<<std::endl;
@@ -84,25 +95,28 @@ int** incidenceToAdjacency(int** incidence, const int &n, const int &m){
     int vertices = n;
 
     int** adjacency = makeAdjacencyMatrix(n);
-
     for (int edge = 0; edge < edges; ++edge) {
         int a = 0, b = 0, vertex = 0;
         bool flag = false;
+        //std::cout<<"w funkcji"<<edge<<std::endl;
         for (; vertex < vertices && !flag; ++vertex) {
-            if (incidence[edge][vertex]) {
+            if (incidence[vertex][edge]) {
                 a = vertex;
                 flag = true;
+                //std::cout<<"w funkcji";
             }
         }
         flag = false;
         for (; vertex < vertices && !flag; ++vertex) {
-            if (incidence[edge][vertex]) {
+            if (incidence[vertex][edge]) {
                 b = vertex;
                 flag = true;
+                //std::cout<<"w funkcji";
             }
         }
         adjacency[a][b] = adjacency[b][a] = 1;
     }
+
     return adjacency;
 }
 
@@ -138,14 +152,14 @@ std::list<int>* incidenceToList(int** incidence, const int& n, const int& m){
         int a = 0, b = 0, vertex = 0;
         bool flag = false;
         for (; vertex < vertices && !flag; ++vertex) {
-            if (incidence[edge][vertex]) {
+            if (incidence[vertex][edge]) {
                 a = vertex;
                 flag = true;
             }
         }
         flag = false;
         for (; vertex < vertices && !flag; ++vertex) {
-            if (incidence[edge][vertex]) {
+            if (incidence[vertex][edge]) {
                 b = vertex;
                 flag = true;
             }
@@ -163,7 +177,7 @@ int** listToIncidence(std::list<int>* list , const int& n, const int& m){
 
     for (int i = 0; i < n; ++i) {
         for (int x : list[i]) {
-            if (x) {
+            if (incidence[x][edge] == 0) {
                 incidence[x][edge] = incidence[i][edge] = 1;
                 ++edge;
             }
