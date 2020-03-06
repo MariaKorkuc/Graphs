@@ -1,0 +1,8 @@
+//
+// Created by Wiktor on 06.03.2020.
+//
+
+#ifndef PROJECT1_RANDOMGRAPH_H
+#define PROJECT1_RANDOMGRAPH_H
+
+#endif //PROJECT1_RANDOMGRAPH_H
