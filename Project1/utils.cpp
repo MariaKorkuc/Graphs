@@ -52,7 +52,10 @@ void printAdjacencyMatrix( int** matrix, const int n){
     for( int i = 0; i < n; ++i ) {
         std::cout << std::setw ( 3 ) <<"v"<< i;
         for (int j = 0; j < n; ++j) {
-            std::cout <<std::setw ( 4 )<< matrix[i][j];
+            if(j < 10)
+                std::cout <<std::setw ( 4 )<< matrix[i][j];
+            else if(j<100)
+                std::cout <<std::setw ( 5 )<< matrix[i][j];
         }
         std::cout<<std::endl;
     }
@@ -72,7 +75,12 @@ void printIncidenceMatrix( int** matrix, const int n, const int m){
     for( int i = 0; i < n; ++i ) {
         std::cout << std::setw ( 3 ) <<"v"<< i;
         for (int j = 0; j < m; ++j) {
-            std::cout <<std::setw ( 4 )<< matrix[i][j];
+            if(j<10) {
+                std::cout << std::setw(4) << matrix[i][j];
+            }
+            else if(j<100){
+                std::cout <<std::setw ( 5 )<< matrix[i][j];
+            }
         }
         std::cout<<std::endl;
     }

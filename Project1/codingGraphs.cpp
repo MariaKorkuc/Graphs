@@ -98,20 +98,20 @@ int** incidenceToAdjacency(int** incidence, const int &n, const int &m){
     for (int edge = 0; edge < edges; ++edge) {
         int a = 0, b = 0, vertex = 0;
         bool flag = false;
-        //std::cout<<"w funkcji"<<edge<<std::endl;
+
         for (; vertex < vertices && !flag; ++vertex) {
-            if (incidence[vertex][edge]) {
+            if (incidence[vertex][edge] == 1) {
                 a = vertex;
+                
                 flag = true;
-                //std::cout<<"w funkcji";
             }
         }
         flag = false;
         for (; vertex < vertices && !flag; ++vertex) {
-            if (incidence[vertex][edge]) {
+            if (incidence[vertex][edge] == 1) {
                 b = vertex;
+
                 flag = true;
-                //std::cout<<"w funkcji";
             }
         }
         adjacency[a][b] = adjacency[b][a] = 1;

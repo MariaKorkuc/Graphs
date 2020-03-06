@@ -101,7 +101,8 @@ int main(int argc, char* argv[]) {
 
                     }
                     //printIncidenceMatrix(incidenceMatrix,n,m);
-                    std::cout << std::endl;
+                    std::cout<<n<<" "<<m << std::endl;
+
                     adjacencyMatrix = incidenceToAdjacency(incidenceMatrix, n, m);
                     adjacencyList = incidenceToList(incidenceMatrix, n, m);
 
