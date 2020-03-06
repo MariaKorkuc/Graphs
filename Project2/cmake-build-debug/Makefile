@@ -122,32 +122,32 @@ Project2/fast:
 	$(MAKE) -f CMakeFiles\Project2.dir\build.make CMakeFiles/Project2.dir/build
 .PHONY : Project2/fast
 
-main.obj: main.cpp.obj
+randomizeMatrix.obj: randomizeMatrix.cpp.obj
 
-.PHONY : main.obj
+.PHONY : randomizeMatrix.obj
 
 # target to build an object file
-main.cpp.obj:
-	$(MAKE) -f CMakeFiles\Project2.dir\build.make CMakeFiles/Project2.dir/main.cpp.obj
-.PHONY : main.cpp.obj
+randomizeMatrix.cpp.obj:
+	$(MAKE) -f CMakeFiles\Project2.dir\build.make CMakeFiles/Project2.dir/randomizeMatrix.cpp.obj
+.PHONY : randomizeMatrix.cpp.obj
 
-main.i: main.cpp.i
+randomizeMatrix.i: randomizeMatrix.cpp.i
 
-.PHONY : main.i
+.PHONY : randomizeMatrix.i
 
 # target to preprocess a source file
-main.cpp.i:
-	$(MAKE) -f CMakeFiles\Project2.dir\build.make CMakeFiles/Project2.dir/main.cpp.i
-.PHONY : main.cpp.i
+randomizeMatrix.cpp.i:
+	$(MAKE) -f CMakeFiles\Project2.dir\build.make CMakeFiles/Project2.dir/randomizeMatrix.cpp.i
+.PHONY : randomizeMatrix.cpp.i
 
-main.s: main.cpp.s
+randomizeMatrix.s: randomizeMatrix.cpp.s
 
-.PHONY : main.s
+.PHONY : randomizeMatrix.s
 
 # target to generate assembly for a file
-main.cpp.s:
-	$(MAKE) -f CMakeFiles\Project2.dir\build.make CMakeFiles/Project2.dir/main.cpp.s
-.PHONY : main.cpp.s
+randomizeMatrix.cpp.s:
+	$(MAKE) -f CMakeFiles\Project2.dir\build.make CMakeFiles/Project2.dir/randomizeMatrix.cpp.s
+.PHONY : randomizeMatrix.cpp.s
 
 utils.obj: utils.cpp.obj
 
@@ -185,9 +185,9 @@ help:
 	@echo ... Project2
 	@echo ... edit_cache
 	@echo ... rebuild_cache
-	@echo ... main.obj
-	@echo ... main.i
-	@echo ... main.s
+	@echo ... randomizeMatrix.obj
+	@echo ... randomizeMatrix.i
+	@echo ... randomizeMatrix.s
 	@echo ... utils.obj
 	@echo ... utils.i
 	@echo ... utils.s

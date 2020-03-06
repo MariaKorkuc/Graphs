@@ -1,5 +1,5 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/Project2.dir/main.cpp.obj"
+  "CMakeFiles/Project2.dir/randomizeMatrix.cpp.obj"
   "CMakeFiles/Project2.dir/utils.cpp.obj"
   "Project2.exe"
   "Project2.exe.manifest"

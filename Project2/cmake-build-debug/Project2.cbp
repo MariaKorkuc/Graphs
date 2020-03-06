@@ -80,7 +80,7 @@
 				</MakeCommands>
 			</Target>
 		</Build>
-		<Unit filename="C:/Users/wikto/Desktop/22/Graphs/Project2/main.cpp">
+		<Unit filename="C:/Users/wikto/Desktop/22/Graphs/Project2/randomizeMatrix.cpp">
 			<Option target="Project2"/>
 		</Unit>
 		<Unit filename="C:/Users/wikto/Desktop/22/Graphs/Project2/utils.cpp">

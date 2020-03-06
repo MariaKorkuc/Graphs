@@ -4,7 +4,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "C:/Users/wikto/Desktop/22/Graphs/Project2/main.cpp" "C:/Users/wikto/Desktop/22/Graphs/Project2/cmake-build-debug/CMakeFiles/Project2.dir/main.cpp.obj"
+  "C:/Users/wikto/Desktop/22/Graphs/Project2/randomizeMatrix.cpp" "C:/Users/wikto/Desktop/22/Graphs/Project2/cmake-build-debug/CMakeFiles/Project2.dir/randomizeMatrix.cpp.obj"
   "C:/Users/wikto/Desktop/22/Graphs/Project2/utils.cpp" "C:/Users/wikto/Desktop/22/Graphs/Project2/cmake-build-debug/CMakeFiles/Project2.dir/utils.cpp.obj"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")

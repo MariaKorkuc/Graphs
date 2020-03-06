@@ -122,6 +122,33 @@ Project1/fast:
 	$(MAKE) -f CMakeFiles\Project1.dir\build.make CMakeFiles/Project1.dir/build
 .PHONY : Project1/fast
 
+RandomGraph.obj: RandomGraph.cpp.obj
+
+.PHONY : RandomGraph.obj
+
+# target to build an object file
+RandomGraph.cpp.obj:
+	$(MAKE) -f CMakeFiles\Project1.dir\build.make CMakeFiles/Project1.dir/RandomGraph.cpp.obj
+.PHONY : RandomGraph.cpp.obj
+
+RandomGraph.i: RandomGraph.cpp.i
+
+.PHONY : RandomGraph.i
+
+# target to preprocess a source file
+RandomGraph.cpp.i:
+	$(MAKE) -f CMakeFiles\Project1.dir\build.make CMakeFiles/Project1.dir/RandomGraph.cpp.i
+.PHONY : RandomGraph.cpp.i
+
+RandomGraph.s: RandomGraph.cpp.s
+
+.PHONY : RandomGraph.s
+
+# target to generate assembly for a file
+RandomGraph.cpp.s:
+	$(MAKE) -f CMakeFiles\Project1.dir\build.make CMakeFiles/Project1.dir/RandomGraph.cpp.s
+.PHONY : RandomGraph.cpp.s
+
 circle_graph.obj: circle_graph.cpp.obj
 
 .PHONY : circle_graph.obj
@@ -239,6 +266,9 @@ help:
 	@echo ... rebuild_cache
 	@echo ... Project1
 	@echo ... edit_cache
+	@echo ... RandomGraph.obj
+	@echo ... RandomGraph.i
+	@echo ... RandomGraph.s
 	@echo ... circle_graph.obj
 	@echo ... circle_graph.i
 	@echo ... circle_graph.s

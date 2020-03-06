@@ -4,6 +4,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
+  "C:/Users/wikto/Desktop/22/Graphs/Project1/RandomGraph.cpp" "C:/Users/wikto/Desktop/22/Graphs/Project1/cmake-build-debug/CMakeFiles/Project1.dir/RandomGraph.cpp.obj"
   "C:/Users/wikto/Desktop/22/Graphs/Project1/circle_graph.cpp" "C:/Users/wikto/Desktop/22/Graphs/Project1/cmake-build-debug/CMakeFiles/Project1.dir/circle_graph.cpp.obj"
   "C:/Users/wikto/Desktop/22/Graphs/Project1/codingGraphs.cpp" "C:/Users/wikto/Desktop/22/Graphs/Project1/cmake-build-debug/CMakeFiles/Project1.dir/codingGraphs.cpp.obj"
   "C:/Users/wikto/Desktop/22/Graphs/Project1/main.cpp" "C:/Users/wikto/Desktop/22/Graphs/Project1/cmake-build-debug/CMakeFiles/Project1.dir/main.cpp.obj"
