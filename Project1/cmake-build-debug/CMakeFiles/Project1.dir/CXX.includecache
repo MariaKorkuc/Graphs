@@ -6,15 +6,41 @@
 
 #IncludeRegexTransform: 
 
-C:/Users/wikto/Desktop/22/Graphs/Project1/codingGraphs.cpp
-codingGraphs.h
-C:/Users/wikto/Desktop/22/Graphs/Project1/codingGraphs.h
-iostream
--
+C:/Users/wikto/Desktop/22/Graphs/Project1/RandomGraph.h
+
+C:/Users/wikto/Desktop/22/Graphs/Project1/circle_graph.h
 
 C:/Users/wikto/Desktop/22/Graphs/Project1/codingGraphs.h
 utils.h
 C:/Users/wikto/Desktop/22/Graphs/Project1/utils.h
+
+C:/Users/wikto/Desktop/22/Graphs/Project1/main.cpp
+iostream
+-
+fstream
+-
+cmath
+-
+algorithm
+-
+cstdio
+-
+cstring
+-
+sstream
+-
+iterator
+-
+vector
+-
+utils.h
+C:/Users/wikto/Desktop/22/Graphs/Project1/utils.h
+codingGraphs.h
+C:/Users/wikto/Desktop/22/Graphs/Project1/codingGraphs.h
+circle_graph.h
+C:/Users/wikto/Desktop/22/Graphs/Project1/circle_graph.h
+RandomGraph.h
+C:/Users/wikto/Desktop/22/Graphs/Project1/RandomGraph.h
 
 C:/Users/wikto/Desktop/22/Graphs/Project1/utils.h
 list

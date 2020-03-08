@@ -19,10 +19,18 @@ int main(int argc, char* argv[]) {
     char node[10];
     int count;
     int laterChoice = -1;
-    char *filename;
+    char *filename = nullptr;
     int fileType;
 
-    if(strncmp("random", argv[1], 6) == 0){
+    if(!argv[1]){
+        setData(n, m);
+        adjacencyMatrix = makeAdjacencyMatrix(n);
+        encode(adjacencyMatrix, n, m);
+        incidenceMatrix = adjacencyToIncidence(adjacencyMatrix, n);
+        adjacencyList = adjacencyToList(adjacencyMatrix,n);
+        std::cout << std::endl;
+    }
+    else if(strncmp("random", argv[1], 6) == 0){
         char choice;
 
         do{
@@ -47,14 +55,12 @@ int main(int argc, char* argv[]) {
     }
 
     else {
+
         filename = argv[1];
 
         if (!file_exist(filename)) {
-            setData(n, m);
-            adjacencyMatrix = makeAdjacencyMatrix(n);
-            encode(adjacencyMatrix, n, m);
-            printAdjacencyMatrix(adjacencyMatrix, n);
-            std::cout << std::endl;
+            std::cout<<"Nie ma takiego pliku!";
+            exit(EXIT_FAILURE);
         } else {
             std::ifstream f(filename);
             std::cout<<"What type of encoding is in the file?"<<std::endl;
