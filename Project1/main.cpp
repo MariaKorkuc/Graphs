@@ -19,7 +19,7 @@ int main(int argc, char* argv[]) {
         std::cout << std::endl;
     }
     else if(strncmp("random", argv[1], 6) == 0){
-        char choice;
+        int choice;
 
         do{
             std::cout<<"Choose model of random graph: "<<std::endl<<"Type 'p' for G(n,p) graph, 'm'  for G(n,m) graph: ";
@@ -154,7 +154,7 @@ int main(int argc, char* argv[]) {
                 //drawGraph(adjacencyMatrix, n);
                 break;
             default:
-                std::cout << "You chose the wrong value";
+                std::cout << "You chose the wrong value! Please select value from 0 to 4!"<<std::endl;
         }
 
     }
