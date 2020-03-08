@@ -1,16 +1,4 @@
-#include <iostream>
-#include <fstream>
-#include <cmath>
-#include <algorithm>
-#include <cstdio>
-#include <cstring>
-#include <sstream>
-#include <iterator>
-#include <vector>
-#include "utils.h"
-#include "codingGraphs.h"
-#include "circle_graph.h"
-#include "RandomGraph.h"
+#include "main.h"
 
 int main(int argc, char* argv[]) {
     int n, m = 0;
@@ -19,11 +7,19 @@ int main(int argc, char* argv[]) {
     char node[10];
     int count;
     int laterChoice = -1;
-    char *filename;
+    char *filename = nullptr;
     int fileType;
 
-    if(strncmp("random", argv[1], 6) == 0){
-        char choice;
+    if(!argv[1]){
+        setData(n, m);
+        adjacencyMatrix = makeAdjacencyMatrix(n);
+        encode(adjacencyMatrix, n, m);
+        incidenceMatrix = adjacencyToIncidence(adjacencyMatrix, n);
+        adjacencyList = adjacencyToList(adjacencyMatrix,n);
+        std::cout << std::endl;
+    }
+    else if(strncmp("random", argv[1], 6) == 0){
+        int choice;
 
         do{
             std::cout<<"Choose model of random graph: "<<std::endl<<"Type 'p' for G(n,p) graph, 'm'  for G(n,m) graph: ";
@@ -47,14 +43,12 @@ int main(int argc, char* argv[]) {
     }
 
     else {
+
         filename = argv[1];
 
         if (!file_exist(filename)) {
-            setData(n, m);
-            adjacencyMatrix = makeAdjacencyMatrix(n);
-            encode(adjacencyMatrix, n, m);
-            printAdjacencyMatrix(adjacencyMatrix, n);
-            std::cout << std::endl;
+            std::cout<<"This file doesn't exist!";
+            exit(EXIT_FAILURE);
         } else {
             std::ifstream f(filename);
             std::cout<<"What type of encoding is in the file?"<<std::endl;
@@ -100,7 +94,6 @@ int main(int argc, char* argv[]) {
                         }
 
                     }
-                    //printIncidenceMatrix(incidenceMatrix,n,m);
                     std::cout<<n<<" "<<m << std::endl;
 
                     adjacencyMatrix = incidenceToAdjacency(incidenceMatrix, n, m);
@@ -161,7 +154,7 @@ int main(int argc, char* argv[]) {
                 //drawGraph(adjacencyMatrix, n);
                 break;
             default:
-                std::cout << "You chose the wrong value";
+                std::cout << "You chose the wrong value! Please select value from 0 to 4!"<<std::endl;
         }
 
     }

@@ -15,6 +15,7 @@ CMakeFiles/Project1.dir/main.cpp.obj: ../RandomGraph.h
 CMakeFiles/Project1.dir/main.cpp.obj: ../circle_graph.h
 CMakeFiles/Project1.dir/main.cpp.obj: ../codingGraphs.h
 CMakeFiles/Project1.dir/main.cpp.obj: ../main.cpp
+CMakeFiles/Project1.dir/main.cpp.obj: ../main.h
 CMakeFiles/Project1.dir/main.cpp.obj: ../utils.h
 
 CMakeFiles/Project1.dir/utils.cpp.obj: ../utils.cpp

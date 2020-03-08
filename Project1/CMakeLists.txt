@@ -3,5 +3,5 @@ project(Project1)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(Project1 main.cpp utils.cpp utils.h codingGraphs.cpp codingGraphs.h circle_graph.cpp circle_graph.h RandomGraph.cpp RandomGraph.h)
+add_executable(Project1 main.cpp utils.cpp utils.h codingGraphs.cpp codingGraphs.h circle_graph.cpp circle_graph.h RandomGraph.cpp RandomGraph.h main.h)
 
