@@ -1,16 +1,4 @@
-#include <iostream>
-#include <fstream>
-#include <cmath>
-#include <algorithm>
-#include <cstdio>
-#include <cstring>
-#include <sstream>
-#include <iterator>
-#include <vector>
-#include "utils.h"
-#include "codingGraphs.h"
-#include "circle_graph.h"
-#include "RandomGraph.h"
+#include "main.h"
 
 int main(int argc, char* argv[]) {
     int n, m = 0;
@@ -59,7 +47,7 @@ int main(int argc, char* argv[]) {
         filename = argv[1];
 
         if (!file_exist(filename)) {
-            std::cout<<"Nie ma takiego pliku!";
+            std::cout<<"This file doesn't exist!";
             exit(EXIT_FAILURE);
         } else {
             std::ifstream f(filename);
@@ -106,7 +94,6 @@ int main(int argc, char* argv[]) {
                         }
 
                     }
-                    //printIncidenceMatrix(incidenceMatrix,n,m);
                     std::cout<<n<<" "<<m << std::endl;
 
                     adjacencyMatrix = incidenceToAdjacency(incidenceMatrix, n, m);
