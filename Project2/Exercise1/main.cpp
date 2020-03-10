@@ -23,10 +23,10 @@ bool GraphSeq_check(int *seq, int size)
         return false;
     }
 
-    sort(seq_copy, seq_copy+size, greater<int>());
-
     while(true)
     {
+        sort(seq_copy, seq_copy+size, greater<int>());
+
         // If all elements in the sequence are 0 - it's graphical sequence
         bool zeros = true;
         for(int i = 0; i < size; i++)
@@ -58,7 +58,28 @@ bool GraphSeq_check(int *seq, int size)
         }
         seq_copy[0] = 0;
 
-        sort(seq_copy, seq_copy+size, greater<int>());
+    }
+}
+
+void swap(int *xp, int *yp)
+{
+    int temp = *xp;
+    *xp = *yp;
+    *yp = temp;
+}
+
+void sort_seq(int** seq, int size)
+{
+    for (int i = 0; i < size-1; i++)
+    {
+        for (int j = 0; j < size-i-1; j++)
+        {
+            if (seq[j][1] < seq[j+1][1])
+            {
+                swap(&seq[j][0], &seq[j+1][0]);
+                swap(&seq[j][1], &seq[j+1][1]);
+            }
+        }
     }
 }
 
@@ -66,11 +87,13 @@ int** GraphSeq_to_AdjacencyMatrix(int* seq_graph, int size)
 {
 
     int** adjMatrix = new int*[size];
-    int* seq = new int[size];
+    int** seq = new int*[size];
 
     for(int i = 0; i < size; i++)
     {
-        seq[i] = seq_graph[i];
+        seq[i] = new int[2];
+        seq[i][0] = i;
+        seq[i][1] = seq_graph[i];
         adjMatrix[i] = new int[size];
     }
 
@@ -82,48 +105,29 @@ int** GraphSeq_to_AdjacencyMatrix(int* seq_graph, int size)
         }
     }
 
-
-    int i = 0, j = size-1;
     while(true)
     {
-        if(seq[i] == 0) i++;
-        else break;
-    }
+        sort_seq(seq, size);
 
-    while(true)
-    {
-        if(seq[j] == 0) j--;
-        else break;
-    }
+        if(seq[0][1] == 0)
+            break;
 
+        int x,y,j = 1;
 
-    adjMatrix[i][j] = 1;
-    adjMatrix[j][i] = 1;
-    seq[i]--;
-    seq[j]--;
-
-
-    for(int i = 0; i < size; i++)
-    {
-        for(int j = i+1; j < size; j++)
+        while(seq[0][1] > 0)
         {
-            if(seq[i] == 0) break;
-            if(i != j && seq[i] != 0 && seq[j] != 0 && adjMatrix[i][j] != 1 && adjMatrix[j][i] != 1)
+            x = seq[0][0];
+            y = seq[j][0];
+
+            if(seq[j][1] != 0 && adjMatrix[x][y] != 1 && adjMatrix[y][x] != 1)
             {
-                adjMatrix[i][j] = 1;
-                adjMatrix[j][i] = 1;
-                seq[i]--;
-                seq[j]--;
+                adjMatrix[x][y] = 1;
+                adjMatrix[y][x] = 1;
+                seq[0][1]--;
+                seq[j][1]--;
             }
-        }
-    }
 
-    for(int i = 0; i < size; i++)
-    {
-        if(seq[i] != 0)
-        {
-            random_shuffle(&seq_graph[0], &seq_graph[size]);
-            GraphSeq_to_AdjacencyMatrix(seq_graph, size);
+            j++;
         }
     }
 
@@ -132,7 +136,7 @@ int** GraphSeq_to_AdjacencyMatrix(int* seq_graph, int size)
 
 int main()
 {
-    int seq[] = {2,2,4,3,2,1,4,2,2,2,2};
+    int seq[] = {4, 2, 2, 3, 2, 1, 4, 2, 2, 2, 2};
     int size = (sizeof(seq)/sizeof(seq[0]));
     if(GraphSeq_check(seq,size))
     {
