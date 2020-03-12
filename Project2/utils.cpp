@@ -1,5 +1,9 @@
 #include "utils.h"
 
+#include <iostream>
+#include <iomanip>
+#include <fstream>
+
 int** makeAdjacencyMatrix(const int n){
     int** adjacencyMatrix = new int*[n];
     for(int i = 0; i < n; ++i ) {
@@ -95,3 +99,4 @@ bool file_exist(const char *fileName)
     std::ifstream infile(fileName);
     return infile.good();
 }
+
