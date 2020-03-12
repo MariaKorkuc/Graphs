@@ -1,0 +1,3 @@
+C:/Users/wikto/Desktop/22/Graphs/Project1/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+C:/Users/wikto/Desktop/22/Graphs/Project1/cmake-build-debug/CMakeFiles/Project1.dir
+C:/Users/wikto/Desktop/22/Graphs/Project1/cmake-build-debug/CMakeFiles/edit_cache.dir
