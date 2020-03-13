@@ -45,8 +45,9 @@ int main(int argc, char* argv[]) {
         d = int(dist(mt));
         if(a!=b and a != c and a!=d and b!=c and b!=d and c!=d){
             if(adjacencyMatrix[a][b] and adjacencyMatrix[c][d]){
-                std::cout<<a<<" "<<b<<" "<<c<<" "<<d<<std::endl;
+
                 if(adjacencyMatrix[a][d] == 0 and adjacencyMatrix[b][c] == 0){
+                    std::cout<<a<<" "<<b<<" "<<c<<" "<<d<<std::endl;
                     adjacencyMatrix[a][d] = 1;
                     adjacencyMatrix[b][c] = 1;
                     adjacencyMatrix[a][b] = 0;

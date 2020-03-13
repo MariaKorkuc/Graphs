@@ -6,7 +6,7 @@
 
 #IncludeRegexTransform: 
 
-C:/Users/wikto/Desktop/22/Graphs/Project2/main.cpp
+C:/Users/wikto/Desktop/22/Graphs/Project2/randomizeMatrix.cpp
 iostream
 -
 algorithm
@@ -20,5 +20,11 @@ C:/Users/wikto/Desktop/22/Graphs/Project2/utils.h
 
 C:/Users/wikto/Desktop/22/Graphs/Project2/utils.h
 list
+-
+algorithm
+-
+stdio.h
+-
+bits/stdc++.h
 -
 
