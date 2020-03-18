@@ -239,3 +239,64 @@ int** GraphSeq_to_AdjacencyMatrix(const int* seq_graph, int size)
 
     return adjMatrix;
 }
+
+
+
+
+std::vector<int> components(int* seq, int size)
+{
+    int nr = 0;
+    if(!GraphSeq_check(seq, size))
+    {
+        std::cout<<"Cannot create a graph from this sequence\n";
+        exit(EXIT_FAILURE);
+    }
+    std::vector<int> comp(size);
+    std::fill(comp.begin(), comp.end(), -1);
+    int** adjM = GraphSeq_to_AdjacencyMatrix(seq,size);
+
+    for(int i=0; i<size; i++)
+    {
+        if(comp[i] == -1)
+        {
+            nr++;
+            comp[i] = nr;
+            components_R(nr,i,adjM,comp,size);
+        }
+    }
+
+    return comp;
+
+}
+
+void components_R(int nr, int v, int** adjM, std::vector<int>& comp, int size)
+{
+    for(int i=0; i<size; i++)
+    {
+        if(adjM[v][i] && comp[i] == -1)
+        {
+            comp[i] = nr;
+            components_R(nr,i,adjM,comp,size);
+        }
+    }
+}
+
+
+int count_components(int** adjM, int n)
+{
+    int seq[n];
+    int count;
+
+    for(int i=0; i<n;i++)
+    {   
+        count = 0;
+        for(int j=0; j<n;j++)
+        {
+            if(adjM[i][j]) count++;
+        }
+        seq[i] = count;
+    }
+
+    std::vector<int> comp = components(seq,n);
+    return *std::max_element(comp.begin(),comp.end());
+}

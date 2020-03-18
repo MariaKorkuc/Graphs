@@ -26,3 +26,6 @@ int** GraphSeq_to_AdjacencyMatrix(const int* seq_graph, int size);
 
 //Maria pr.1 ex.3
 float r_prob();
+void components_R(int nr, int v, int** adjM, std::vector<int>& comp, int size);
+std::vector<int> components(int* seq, int size);
+int count_components(int** adjM, int n);
