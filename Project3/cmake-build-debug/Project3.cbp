@@ -83,6 +83,12 @@
 		<Unit filename="C:/Users/wikto/Desktop/22/Graphs/Project3/main.cpp">
 			<Option target="Project3"/>
 		</Unit>
+		<Unit filename="C:/Users/wikto/Desktop/22/Graphs/Project3/utils.cpp">
+			<Option target="Project3"/>
+		</Unit>
+		<Unit filename="C:/Users/wikto/Desktop/22/Graphs/Project3/utils.h">
+			<Option target="Project3"/>
+		</Unit>
 		<Unit filename="C:/Users/wikto/Desktop/22/Graphs/Project3/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\"/>
 		</Unit>

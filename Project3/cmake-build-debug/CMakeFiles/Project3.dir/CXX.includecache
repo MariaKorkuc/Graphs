@@ -9,4 +9,26 @@
 C:/Users/wikto/Desktop/22/Graphs/Project3/main.cpp
 iostream
 -
+vector
+-
+algorithm
+-
+utils.h
+C:/Users/wikto/Desktop/22/Graphs/Project3/utils.h
+random
+-
+cstdlib
+-
+ctime
+-
+
+C:/Users/wikto/Desktop/22/Graphs/Project3/utils.h
+list
+-
+algorithm
+-
+stdio.h
+-
+bits/stdc++.h
+-
 
