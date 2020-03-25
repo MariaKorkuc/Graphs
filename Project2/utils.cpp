@@ -300,3 +300,136 @@ int count_components(int** adjM, int n)
     std::vector<int> comp = components(seq,n);
     return *std::max_element(comp.begin(),comp.end());
 }
+
+
+int next_neighbour(int** adjM,int n,int v,int& nr)
+{
+    if(nr == 0)
+    {
+        return -1;
+    }
+
+    int count = 0;
+    int i=-1;
+
+    //we need to get to the nr-th neighbour (count) 
+    //and we need to keep i in n bounds 
+    while(count < nr)
+    {
+        i++;
+        if(i==n) break;
+        if(adjM[v][i]) count++;
+    }
+    // if (v==4) std::cout<<"count = "<<count<<"i = "<<i<<"\n"; 
+
+    //in case nt-th neighbour doesn't exist
+    if(i==n)
+    {
+        nr--;
+        //we go back to the previous neighbour
+        i = next_neighbour(adjM,n,v,nr);
+        //we need to let know if the nr-th neighbour is not found
+        nr = -1;
+    } 
+
+    //return the index of found neighbour
+    return i;
+}
+
+bool is_bridge(int** adjM, int size, int v, int u)
+{
+    bool ans = false;
+    //counting components before removing current edge
+    int count_first = count_components(adjM,size);
+    removeEdge(v,u,adjM);
+    //-||- after
+    int count_second = count_components(adjM,size);
+    
+    //if number of components is different => the edge is a bridge
+    if(count_first != count_second) ans = true;
+    addEdge(v,u,adjM);
+
+    return ans;
+}
+
+void addEdge(int v, int u, int** adjM)
+{
+    adjM[v][u] = 1;
+    adjM[u][v] = 1;
+}
+
+void removeEdge(int v,int u,int** adjM)
+{
+    adjM[v][u] = 0;
+    adjM[u][v] = 0;
+}
+
+
+
+
+bool isPossible(int n, int k){
+    if(n >= k + 1 && (n * k) % 2 == 0) return true;
+    return false;
+}
+
+ int** GenerateRegularGraph(int n, int k){
+    int ** graph = new int*[n];
+    for(int i = 0; i < n; i++)
+        graph[i] = new int[k];
+        for(int i = 0; i < n; i++){
+            for(int j = 0; j < k/2; j++){
+                graph[i][j] = (i + j + 1) % n;
+                if(i - j - 1 >= 0)
+                    graph[i][k - j - 1] = i - j - 1;
+                else
+                    graph[i][k - j - 1] = n + i - j - 1;
+            }
+            if(k % 2 != 0) graph[i][k/2] = (i + n/2) % n;
+        }
+    return graph;
+ }
+
+
+ bool CanAdd(int n, int** graph, int* cycle, int p, int v){
+    if(graph[v][cycle[p - 1]] == 0)
+        return 0;
+    for(int i = 0; i < p; i++){
+        if(cycle[i] == v) return 0;
+    }
+    return 1;
+}
+
+bool fun1(int n, int** graph, int* cycle, int p){
+    //sprawdza czy w cyklu sa wszystkie wierzcholki jesli tak to sprawdza czy ostatni ma polaczenie z pierwszym
+    if(p == n){
+        if(graph[cycle[0]][cycle[n - 1]] == 1)
+            return 1;
+        else
+            return 0; 
+    }
+    //sprawdza czy mozna dodac kolejny wiercholek oprocz zerwoego bo on juz jest
+    //jesli mozna to dodaje i uruchamia funkcje dla kolejnego wierzcholka
+    for(int i = 1; i < n; i++){
+        if(CanAdd(n, graph, cycle, p, i)){
+            cycle[p] = i;
+            if(fun1(n, graph, cycle, p + 1))
+                return 1;
+            cycle[p] = -1;
+        }
+    }
+    return 0;
+}
+
+int* Hamilton(int n, int** graph){
+    int* cycle = new int[n];
+    for(int i = 0; i < n; i++)
+        cycle[i] = -1;
+
+    cycle[0] = 0;
+
+    if(fun1(n, graph, cycle, 1) == 1)
+        return cycle;
+    else{
+        delete[] cycle;
+        return nullptr;}
+}
