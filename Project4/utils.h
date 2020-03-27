@@ -55,3 +55,11 @@ bool isPossible(int n, int k);
 
 bool CanAdd(int n, int** graph, int* cycle, int p, int v);
 
+
+//Maria proj 4
+
+std::vector<int> Kosaraju(int** adjM, int n);
+void DFS_visit(int v,int** adjM, std::vector<int>& d, std::vector<int>& f, int& t, int n);
+int** transpose(int** adjM, int n);
+int max_ind(std::vector<int>& vec);
+

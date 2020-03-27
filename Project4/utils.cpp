@@ -422,3 +422,92 @@ bool isPossible(int n, int k){
     }
     return 1;
 }
+
+
+
+std::vector<int> Kosaraju(int** adjM, int n)
+{
+    std::vector<int> d(n);
+    std::vector<int> f(n);
+    std::vector<int> comp(n);
+
+    int t = 0;
+
+    std::fill(d.begin(),d.end(),-1);
+    std::fill(f.begin(),f.end(),-1);
+    std::fill(comp.begin(),comp.end(),-1);
+
+
+    for(int i=0; i<n; i++)
+    {
+        if(d[i] == -1) DFS_visit(i,adjM,d,f,t,n);
+    }
+
+    int** Gt = transpose(adjM,n);
+    int nr = 0;
+    int k = 0;
+
+    while(k < n)
+    {
+        int v = max_ind(f);
+        if(comp[v] == -1)
+        {
+            nr++;
+            comp[v] = nr;
+            components_R(nr, v, Gt, comp, n);
+        }
+        
+        k++;
+    }
+    
+    for(int i=0; i<n; i++)
+    {
+        delete [] Gt;
+    }
+
+    return comp;
+}
+
+
+void DFS_visit(int v,int** adjM, std::vector<int>& d, std::vector<int>& f, int& t, int n)
+{
+    t++;
+    d[v] = t;
+
+    for(int i=0; i<n; i++)
+    {
+        if(adjM[v][i] && d[i] == -1) DFS_visit(i,adjM,d,f,t,n);
+    }
+
+    t++;
+    f[v] = t;
+}
+
+int** transpose(int** adjM, int n)
+{
+    int** Gt = makeAdjacencyMatrix(n);
+
+    for(int i=0; i<n; i++)
+    {
+        for(int j=0; j<n; j++)
+        {
+            Gt[i][j] = adjM[j][i];
+        }
+    }
+
+    return Gt;
+}
+
+int max_ind(std::vector<int>& vec)
+{
+    int max = 0;
+
+    for(unsigned int i=1; i<vec.size(); i++)
+    {
+        if(vec[i] > vec[max]) max = i;
+    } 
+
+    vec[max] = -1;
+
+    return max;
+}

@@ -1,3 +1,7 @@
-#include "utils.h"
+#pragma once
 
-int** randomDiGraph();
+#include "utils.h"
+#include <algorithm>
+
+int** randomDiGraph(int& n);
+void componentsWithKosaraju();

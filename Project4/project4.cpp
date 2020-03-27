@@ -1,9 +1,8 @@
 #include "project4.h"
 
 
-int** randomDiGraph()
+int** randomDiGraph(int& n)
 {
-    int n;
     std::cout<<"Insert number of vertices: ";
     std::cin>>n;
 
@@ -42,4 +41,31 @@ int** randomDiGraph()
 
     return adjM;
 
+}
+
+
+
+void componentsWithKosaraju()
+{
+    int n = 0;
+    int** adjM = randomDiGraph(n);
+
+    std::vector<int> comp = Kosaraju(adjM,n);
+
+    int max = *std::max_element(comp.begin(),comp.end());
+
+    std::cout<<"Graph's components: \n";
+    for(int k=1; k<=max; k++)
+    {
+        std::cout<<k<<") ";
+
+        for(int i=0; i<n;i++)
+        {
+            if(comp[i] == k)
+            {
+                std::cout<<i+1<<" ";
+            }
+        }
+        std::cout<<std::endl;
+    }
 }
