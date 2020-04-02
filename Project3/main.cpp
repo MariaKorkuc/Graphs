@@ -5,6 +5,7 @@
 #include <random>
 #include <cstdlib>
 #include <ctime>
+#include <iomanip>
 
 #define inf 9999
 
@@ -23,7 +24,6 @@ int main()
     std::cout<<std::endl;
     std::cout<<"Podaj rozmiar macierzy:";
     std::cin>>size;
-//    int size = rand() % 8 + 3;
     int seq[size];
     while(flag) {
 
@@ -82,6 +82,7 @@ int main()
         }
     }
 
+    printAdjacencyMatrix(importanceMatrix, size);
 
     std::cout<<std::endl;
     std::cout<<"----------------------------- 2 ------------------------------------"<<std::endl;
@@ -99,91 +100,96 @@ int main()
     return 0;
 }
 
-void dijkstra(int** importanceMatrix,int size,int initVertex) {
-    int cost[size][size],distance[size],path[size];
-    int visited[size],count,mindInstance,nextVertex;
-    for(int i=0;i<size;i++)
-        for(int j=0;j<size;j++)
-            if(importanceMatrix[i][j]==0)
-                cost[i][j]=inf;
-            else
-                cost[i][j]=importanceMatrix[i][j];
-    for(int i=0;i<size;i++) {
-        distance[i]=cost[initVertex][i];
-        path[i]=initVertex;
-        visited[i]=0;
-    }
-    distance[initVertex]=0;
-    visited[initVertex]=1;
-    count=1;
-    while(count<size-1) {
-        mindInstance=inf;
-        for(int i=0;i<size;i++)
-            if(distance[i]<mindInstance&&!visited[i]) {
-                mindInstance=distance[i];
-                nextVertex=i;
-            }
-        visited[nextVertex]=1;
-        for(int i=0;i<size;i++)
-            if(!visited[i])
-                if(mindInstance+cost[nextVertex][i]<distance[i]) {
-                    distance[i]=mindInstance+cost[nextVertex][i];
-                    path[i]=nextVertex;
-                }
-        count++;
-    }
+int minimumDistance(const int *dist, int size, const bool *visited){
+    int min_index = 0;
+    int min = INT_MAX;
+    for (int v = 0; v < size; v++)
+        if (!visited[v] && dist[v] <= min)
+            min = dist[v], min_index = v;
 
-    for(int i=0;i<size;i++)
-        if(i != initVertex) {
-            std::cout<<"\nDistance from initial vertex to  vertex number "<< i <<": "<<distance[i];
-            std::cout<<"\nPath: "<<i;
-            int k;
-            k=i;
-            do {
-                k=path[k];
-                std::cout<<"->"<<k;
-            }while(k!=initVertex);
-
-        }
-
+    return min_index;
 }
 
-void dijkstra(int** importanceMatrix,int size,int initVertex, int* distanceMatrix) {
-    int cost[size][size],distance[size],path[size];
-    int visited[size],count,mindInstance,nextVertex;
-    for(int i=0;i<size;i++)
-        for(int j=0;j<size;j++)
-            if(importanceMatrix[i][j]==0)
-                cost[i][j]=inf;
-            else
-                cost[i][j]=importanceMatrix[i][j];
-    for(int i=0;i<size;i++) {
-        distance[i]=cost[initVertex][i];
-        path[i]=initVertex;
-        visited[i]=0;
+
+void printParent(int parent[], int i){
+    if (parent[i] == - 1)
+        return;
+    printParent(parent, parent[i]);
+    printf("%d ", i);
+}
+
+void printWithPath(int dist[], int size, int parent[], int initVertex){
+    std::cout<<std::setw(6)<<"Vertex";
+    std::cout<<std::setw(10)<<"Distance";
+    std::cout<<std::setw(10)<<"Path";
+    std::cout<<std::endl;
+    for (int i = 0; i < size; i++){
+        std::cout<<std::setw(0)<<initVertex<<"->"<<i;
+        std::cout<<std::setw(6)<<dist[i];
+        std::cout<<std::setw(12)<<"";
+        printParent(parent,i);
+        std::cout<<std::endl;
     }
-    distance[initVertex]=0;
-    visited[initVertex]=1;
-    count=1;
-    while(count<size-1) {
-        mindInstance=inf;
-        for(int i=0;i<size;i++)
-            if(distance[i]<mindInstance&&!visited[i]) {
-                mindInstance=distance[i];
-                nextVertex=i;
-            }
-        visited[nextVertex]=1;
-        for(int i=0;i<size;i++)
-            if(!visited[i])
-                if(mindInstance+cost[nextVertex][i]<distance[i]) {
-                    distance[i]=mindInstance+cost[nextVertex][i];
-                    path[i]=nextVertex;
-                }
-        count++;
+}
+
+void dijkstra(int **importanceMatrix, int size, int initVertex){
+    int dist[size];
+    bool visited[size];
+    int parent[size];
+    for (int i = 0; i < size; i++){
+        parent[0] = -1;
+        dist[i] = INT_MAX;
+        visited[i] = false;
     }
 
-    for(int i=0;i<size;i++)
-        distanceMatrix[i] = distance[i];
+    dist[initVertex] = 0;
+
+    for (int i = 0; i < size - 1; i++){
+
+        int u = minimumDistance(dist, size, visited);
+        visited[u] = true;
+
+        for (int v = 0; v < size; v++) {
+            if (!visited[v] && importanceMatrix[u][v] && dist[u] + importanceMatrix[u][v] < dist[v]) {
+                parent[v] = u;
+                dist[v] = dist[u] + importanceMatrix[u][v];
+            }
+        }
+    }
+
+    printWithPath(dist, size, parent, initVertex);
+}
+
+
+
+void dijkstra(int** importanceMatrix,int size,int initVertex, int* distanceMatrix) {
+    int dist[size];
+    bool visited[size];
+    int parent[size];
+    for (int i = 0; i < size; i++){
+        parent[0] = -1;
+        dist[i] = INT_MAX;
+        visited[i] = false;
+    }
+
+    dist[initVertex] = 0;
+
+    for (int i = 0; i < size - 1; i++){
+
+        int u = minimumDistance(dist, size, visited);
+        visited[u] = true;
+
+        for (int v = 0; v < size; v++) {
+            if (!visited[v] && importanceMatrix[u][v] && dist[u] + importanceMatrix[u][v] < dist[v]) {
+                parent[v] = u;
+                dist[v] = dist[u] + importanceMatrix[u][v];
+            }
+        }
+    }
+
+    for(int i = 0; i < size; ++i){
+        distanceMatrix[i] = dist[i];
+    }
 
 }
 
