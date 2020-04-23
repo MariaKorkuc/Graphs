@@ -5,7 +5,7 @@ int* get_arr(std::vector<int> arr)
 {
     int* seq = new int[arr.size()];
 
-    for(int i=0; i<arr.size(); i++)
+    for(unsigned int i=0; i<arr.size(); i++)
     {
         seq[i] = arr[i];
     }
@@ -57,7 +57,7 @@ void checkSequence(std::vector<int> seq1)
 void randomizeMatrix(char* filename)
 {
     int** adjacencyMatrix;
-    int m = 0;
+    // int m = 0;
     int a,b,c,d;
 
     std::ifstream inFile(filename);
@@ -94,7 +94,7 @@ void randomizeMatrix(char* filename)
         d = int(dist(mt));
         if(a!=b and a != c and a!=d and b!=c and b!=d and c!=d){
             if(adjacencyMatrix[a][b] and adjacencyMatrix[c][d]){
-                std::cout<<a<<" "<<b<<" "<<c<<" "<<d<<std::endl;
+                // std::cout<<a<<" "<<b<<" "<<c<<" "<<d<<std::endl;
                 if(adjacencyMatrix[a][d] == 0 and adjacencyMatrix[b][c] == 0){
                     adjacencyMatrix[a][d] = 1;
                     adjacencyMatrix[b][c] = 1;
@@ -115,6 +115,7 @@ void randomizeMatrix(char* filename)
     }
 
     printAdjacencyMatrix(adjacencyMatrix, n);
+    matrix_to_file(adjacencyMatrix, n);
     std::cout<<std::endl;
 }
 
@@ -153,11 +154,14 @@ void greatestComponent(std::vector<int> seq1)
     }
 
     std::cout<<"Greatest component: number "<<greatest<<std::endl;
+    
+    matrix_to_file(seq, size);
 
 }
 
 void eulersGraph()
 {
+    srand(time(NULL));
     int n;
     std::cout<<"Insert number of vertices: ";
     std::cin>>n;
@@ -193,6 +197,8 @@ void eulersGraph()
 
     int** adjM = GraphSeq_to_AdjacencyMatrix(seq, n);
     printAdjacencyMatrix(adjM, n);
+    matrix_to_file(adjM, n);
+
     std::vector<int> cykl;
     std::vector<bool> visited(n);
     std::fill(visited.begin(), visited.end(), false);
@@ -241,7 +247,7 @@ void eulersGraph()
     }
 
     std::cout<<"Euler's cycle:\n";
-    for(int j=0; j<cykl.size(); j++)
+    for(unsigned int j=0; j<cykl.size(); j++)
     {
         std::cout<<cykl[j]<<" ";
     }
@@ -251,22 +257,28 @@ void eulersGraph()
 void randomKGraph()
 {
     int n,k;
-    std::cout<<"podaj liczbe i stopien wierzcholkow"<<std::endl;
-    std::cin>>n>>k;
+    std::cout<<"insert number and level of vertices"<<std::endl;
+    std::cout<<"Number: ";
+    std::cin>>n;
+    std::cout<<"\nLevel: ";
+    std::cin>>k;
     if(isPossible(n, k)){
         int** graph;
         graph = GenerateRegularGraph(n, k);
-            for(int i = 0; i < n; i++){
+        for(int i = 0; i < n; i++){
             std::cout<<i<<": ";
             for(int j = 0; j < k; j++){
                 std::cout<<graph[i][j]<<", ";
             }
             std::cout<<std::endl;
         }
+        
+        matrix_to_file(graph, n);
+
         for(int i = 0; i < n; i++){
-        delete[] graph[i];
-    }
-    delete[] graph;
+            delete[] graph[i];
+        }
+        delete[] graph;
     }
     else{
        std::cout<<"zle dane wejsciowe"<<std::endl;

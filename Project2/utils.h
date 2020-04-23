@@ -3,6 +3,8 @@
 #include <list>
 #include <algorithm>
 #include <stdio.h>
+#include <fstream>
+#include <string>
 #include <bits/stdc++.h>
 
 //Wiktor pr. 1 ex. 1
@@ -13,7 +15,8 @@ void printAdjacencyMatrix(int**, int);
 void printIncidenceMatrix(int**, int, int);
 void printAdjacencyList(std::list<int>*, int);
 
-
+void matrix_to_file(int* seq, int n, std::string filename = "out.txt");
+void matrix_to_file(int** adjM, int n, std::string filename = "out.txt");
 
 //Maciek pr. 1 ex. 2
 bool file_exist(const char*);

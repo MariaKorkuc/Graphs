@@ -97,6 +97,32 @@ void printAdjacencyList( std::list<int>* list, const int n){
 }
 
 
+
+void matrix_to_file(int* seq, int n, std::string filename)
+{
+    int** adjM = GraphSeq_to_AdjacencyMatrix(seq, n);
+    matrix_to_file(adjM,n,filename);
+}
+
+
+void matrix_to_file(int** adjM, int n, std::string filename)
+{
+    std::ofstream out(filename);
+    for(int i=0; i<n; i++)
+    {
+        for(int j=0; j<n-1; j++)
+        {
+            out << adjM[i][j] << " ";
+        }
+
+        out << adjM[i][n-1];
+        if(i != n-1) out << std::endl;
+    }
+}
+
+
+
+
 float r_prob()
 {
     return static_cast<float>(rand()) / static_cast<float>(RAND_MAX);
@@ -375,17 +401,24 @@ bool isPossible(int n, int k){
  int** GenerateRegularGraph(int n, int k){
     int ** graph = new int*[n];
     for(int i = 0; i < n; i++)
+    {
         graph[i] = new int[k];
-        for(int i = 0; i < n; i++){
-            for(int j = 0; j < k/2; j++){
-                graph[i][j] = (i + j + 1) % n;
-                if(i - j - 1 >= 0)
-                    graph[i][k - j - 1] = i - j - 1;
-                else
-                    graph[i][k - j - 1] = n + i - j - 1;
-            }
-            if(k % 2 != 0) graph[i][k/2] = (i + n/2) % n;
+    }
+
+    for(int i = 0; i < n; i++){
+        for(int j = 0; j < k/2; j++){
+            // std::cout<<"*j*j*\n";
+            graph[i][j] = (i + j + 1) % n;
+            // std::cout<<graph[i][j]<<"\n";
+            if(i - j - 1 >= 0)
+                graph[i][k - j - 1] = i - j - 1;
+            else
+                graph[i][k - j - 1] = n + i - j - 1;
+            // std::cout<<"graph[i][k - j - 1] = "<<graph[i][k - j - 1]<<"\n";
         }
+        if(k % 2 != 0) graph[i][k/2] = (i + n/2) % n;
+    }
+    
     return graph;
  }
 

@@ -58,7 +58,7 @@ int main(int argc, char* argv[])
         }
 
 
-    }while(c != 27);
+    }while(true);
 
     return 0;
 }
@@ -100,20 +100,13 @@ std::vector<int> get_sequence(int n1, char* argv[])
         }
     }
 
-
-    for(int i=0; i<n; i++)
-    {
-        std::cout<<seq[i]<<" ";
-    }
-    std::cout<<std::endl;
-
     return seq;
 }
 
 char* get_filename(int n, char* argv[])
 {
     int size = n;
-    char* filename;
+    char* filename = new char;
 
     if(size<2)
     {
@@ -121,12 +114,17 @@ char* get_filename(int n, char* argv[])
         std::cout<<"Insert path to file:\n";
         getline(std::cin, f);
         std::strcpy(filename, f.c_str());
-        std::cout<<std::endl;
+        std::cout<<filename<<std::endl;
     }
     else
     {
         filename = argv[1];
     }
+
+    if(!file_exist(filename)){
+        std::cout<<" File doesn't exist!";
+        exit(EXIT_FAILURE);
+        }
 
     return filename;
 }
