@@ -1,241 +1,234 @@
-#include "utils.h"
-
 #include <iostream>
+#include <vector>
+#include <algorithm>
+#include "utils.h"
+#include <random>
+#include <cstdlib>
+#include <ctime>
 #include <iomanip>
-#include <fstream>
 
-int** makeAdjacencyMatrix(const int n){
-    int** adjacencyMatrix = new int*[n];
-    for(int i = 0; i < n; ++i ) {
-        adjacencyMatrix[i] = new int[n];
-    }
-    for( int i = 0; i < n; ++i ) {
-        for (int j = 0; j < n; ++j) {
-            adjacencyMatrix[i][j] = 0;
+#define inf 9999
+
+std::vector<int> components(int* seq, int size);
+void components_R(int nr, int v, int** adjM, std::vector<int>& comp, int size);
+void dijkstra(int** ,int ,int );
+void dijkstra(int** ,int ,int, int* );
+
+
+int main()
+{
+    srand (time(nullptr));
+    int size;
+    bool flag = true;
+    std::cout<<"----------------------------- 1 ------------------------------------"<<std::endl;
+    std::cout<<std::endl;
+    std::cout<<"Set number of vertices:";
+    std::cin>>size;
+    int seq[size];
+    while(flag) {
+
+        std::uniform_real_distribution<double> b(0, size);
+        for (int i = 0; i < size; ++i) {
+            seq[i] = rand() % size;
         }
-    }
-    return adjacencyMatrix;
-}
 
-int** makeIncidenceMatrix(const int n, const int m){
-    int** incidenceMatrix = new int*[n];
-    for(int i = 0; i < n; ++i ) {
-        incidenceMatrix[i] = new int[m];
-    }
-    for( int i = 0; i < n; ++i ) {
-        for (int j = 0; j < m; ++j) {
-            incidenceMatrix[i][j] = 0;
-        }
-    }
-    return incidenceMatrix;
-}
-
-std::list<int>* makeAdjacencyList(const int n){
-    std::list<int>* adjacencyList;
-    adjacencyList = new std::list<int>[n];
-    return adjacencyList;
-}
-
-
-void printAdjacencyMatrix( int** matrix, const int n){
-    std::cout << std::endl;
-
-    for(int i = 0; i<=n; ++i){
-        if(i == 0){
-            std::cout << std::setw(4) <<"\\";
+        if (!GraphSeq_check(seq, size)) {
+            continue;
         }
         else {
-            std::cout << std::setw(3) << "v" << i-1;
+            std::vector<int> comp = components(seq,size);
+            int max = *std::max_element(comp.begin(),comp.end());
+            if(max == 1)
+                flag = false;
         }
     }
+
+    std::vector<int> comp = components(seq,size);
+    int max = *std::max_element(comp.begin(),comp.end());
+    int greatest_count = 0;
+    int greatest;
+    int count;
+
+    for(int n=1; n<=max; n++)
+    {
+        count = std::count(comp.begin(),comp.end(),n);
+        if(greatest_count < count)
+        {
+            greatest_count = count;
+            greatest = n;
+        }
+
+        std::cout<<n<<") ";
+
+        for(int i=0; i<size;i++)
+        {
+            if(comp[i] == n)
+            {
+                std::cout<<i+1<<" ";
+            }
+        }
+        std::cout<<std::endl;
+    }
+    int** adjM = GraphSeq_to_AdjacencyMatrix(seq,size);
+    std::cout<<"Greatest component: number "<<greatest<<std::endl;
+    printAdjacencyMatrix(adjM, size);
+
+    int** importanceMatrix = makeAdjacencyMatrix(size);
+    for(int i =0; i< size; ++i){
+        for(int j=i;j<size; ++j){
+            if(adjM[i][j] == 1){
+                importanceMatrix[i][j] = importanceMatrix[j][i] = rand()%10 +1;
+            }
+        }
+    }
+
+    printAdjacencyMatrix(importanceMatrix, size);
+
     std::cout<<std::endl;
-    for( int i = 0; i < n; ++i ) {
-        std::cout << std::setw ( 3 ) <<"v"<< i;
-        for (int j = 0; j < n; ++j) {
-            if(j < 10)
-                std::cout <<std::setw ( 4 )<< matrix[i][j];
-            else if(j<100)
-                std::cout <<std::setw ( 5 )<< matrix[i][j];
-        }
-        std::cout<<std::endl;
-    }
-}
-
-
-void printIncidenceMatrix( int** matrix, const int n, const int m){
-    for(int i = 0; i<=m; ++i){
-        if(i == 0){
-            std::cout << std::setw(4) <<"\\";
-        }
-        else {
-            std::cout << std::setw(3) << "e" << i;
-        }
-    }
+    std::cout<<"----------------------------- 2 ------------------------------------"<<std::endl;
     std::cout<<std::endl;
-    for( int i = 0; i < n; ++i ) {
-        std::cout << std::setw ( 3 ) <<"v"<< i;
-        for (int j = 0; j < m; ++j) {
-            if(j<10) {
-                std::cout << std::setw(4) << matrix[i][j];
-            }
-            else if(j<100){
-                std::cout <<std::setw ( 5 )<< matrix[i][j];
-            }
+    int initVertex = 0;
+    std::cout<<"Choose init vertex: ";
+    std::cin>>initVertex;
+    dijkstra(importanceMatrix, size, initVertex);
+    std::cout<<std::endl;
+    std::cout<<std::endl;
+    std::cout<<"----------------------------- 3 ------------------------------------"<<std::endl;
+    int** distanceMatrix = makeAdjacencyMatrix(size);
+
+    for(int i = 0; i < size; ++i){
+        dijkstra(importanceMatrix, size, i, distanceMatrix[i]);
+    }
+    printAdjacencyMatrix(distanceMatrix,size);
+    return 0;
+}
+
+int minimumDistance(const int *dist, int size, const bool *visited){
+    int min_index = 0;
+    int min = INT_MAX;
+    for (int v = 0; v < size; v++)
+        if (!visited[v] && dist[v] <= min)
+            min = dist[v], min_index = v;
+
+    return min_index;
+}
+
+
+void printParent(int parent[], int i){
+    if (parent[i] == - 1)
+        return;
+    printParent(parent, parent[i]);
+    printf(" -> %d", i);
+}
+
+void printWithPath(int dist[], int size, int parent[], int initVertex){
+    std::cout<<std::setw(6)<<"Vertex";
+    std::cout<<std::setw(10)<<"Distance";
+    std::cout<<std::setw(10)<<"Path";
+    std::cout<<std::endl;
+    for (int i = 0; i < size; i++){
+        if(i != initVertex) {
+            std::cout << std::setw(0) << initVertex << "->" << i;
+            std::cout << std::setw(6) << dist[i];
+            std::cout << std::setw(12) << initVertex << "";
+            printParent(parent, i);
+            std::cout << std::endl;
         }
-        std::cout<<std::endl;
     }
 }
 
-void printAdjacencyList( std::list<int>* list, const int n){
-    for( int i = 0; i < n; ++i ) {
-        std::cout << "v"<<i<<": ";
-        for (int x : list[i]) {
-            std::cout << std::setw(3)<<"v" << x ;
-        }
-        std::cout<<std::endl;
-    }
-}
-
-
-float r_prob()
-{
-    return static_cast<float>(rand()) / static_cast<float>(RAND_MAX);
-}
-
-bool file_exist(const char *fileName)
-{
-    std::ifstream infile(fileName);
-    return infile.good();
-}
-
-
-
-//Maciek projekt2, zad1
-bool GraphSeq_check(int *seq, int size)
-{
-    int* seq_copy = new int[size];
-    for(int i = 0; i < size; i++)
-        seq_copy[i] = seq[i];
-
-    int odd = 0;
-    for(int i = 0; i < size; i++)
-    {
-        if(seq_copy[i] % 2 == 1) odd++;
+void dijkstra(int **importanceMatrix, int size, int initVertex){
+    int dist[size];
+    bool visited[size];
+    int parent[size];
+    for (int i = 0; i < size; i++){
+        parent[initVertex] = -1;
+        dist[i] = INT_MAX;
+        visited[i] = false;
     }
 
-    // If number of odd elements in the sequence is odd - it's not graphical sequence
-    if(odd % 2 == 1)
-    {
-        return false;
-    }
+    dist[initVertex] = 0;
 
-    while(true)
-    {
-        std::sort(seq_copy, seq_copy+size, std::greater<int>());
+    for (int i = 0; i < size - 1; i++){
 
-        // If all elements in the sequence are 0 - it's graphical sequence
-        bool zeros = true;
-        for(int i = 0; i < size; i++)
-        {
-            if(seq_copy[i] != 0)
-            {
-                zeros = false;
-                break;
-            }
-        }
-        if(zeros == true) return true;
+        int u = minimumDistance(dist, size, visited);
+        visited[u] = true;
 
-        // If there is negative element in the sequence - it's not graphical sequence
-        bool negative = false;
-        for(int i = 1; i < size; i++)
-        {
-            if(seq_copy[i] < 0)
-            {
-                negative = true;
-                break;
-            }
-        }
-        if(negative == true || seq_copy[0] < 0 || seq_copy[0] >= size) return false;
-
-
-        for(int i = 1; i <= seq_copy[0]; i++)
-        {
-            seq_copy[i] -= 1;
-        }
-        seq_copy[0] = 0;
-
-    }
-}
-
-void swap(int *xp, int *yp)
-{
-    int temp = *xp;
-    *xp = *yp;
-    *yp = temp;
-}
-
-void sort_seq(int** seq, int size)
-{
-    for (int i = 0; i < size-1; i++)
-    {
-        for (int j = 0; j < size-i-1; j++)
-        {
-            if (seq[j][1] < seq[j+1][1])
-            {
-                swap(&seq[j][0], &seq[j+1][0]);
-                swap(&seq[j][1], &seq[j+1][1]);
+        for (int v = 0; v < size; v++) {
+            if (!visited[v] && importanceMatrix[u][v] && dist[u] + importanceMatrix[u][v] < dist[v]) {
+                parent[v] = u;
+                dist[v] = dist[u] + importanceMatrix[u][v];
             }
         }
     }
+
+    printWithPath(dist, size, parent, initVertex);
 }
 
-int** GraphSeq_to_AdjacencyMatrix(const int* seq_graph, int size)
-{
 
-    int** adjMatrix = new int*[size];
-    int** seq = new int*[size];
 
-    for(int i = 0; i < size; i++)
-    {
-        seq[i] = new int[2];
-        seq[i][0] = i;
-        seq[i][1] = seq_graph[i];
-        adjMatrix[i] = new int[size];
+void dijkstra(int** importanceMatrix,int size,int initVertex, int* distanceMatrix) {
+    int dist[size];
+    bool visited[size];
+    for (int i = 0; i < size; i++){
+        dist[i] = INT_MAX;
+        visited[i] = false;
     }
 
-    for(int i = 0; i < size; i++)
-    {
-        for(int j = 0; j < size; j++)
-        {
-            adjMatrix[i][j] = 0;
-        }
-    }
+    dist[initVertex] = 0;
 
-    while(true)
-    {
-        sort_seq(seq, size);
+    for (int i = 0; i < size - 1; i++){
 
-        if(seq[0][1] == 0)
-            break;
+        int u = minimumDistance(dist, size, visited);
+        visited[u] = true;
 
-        int x,y,j = 1;
+        for (int v = 0; v < size; v++) {
+            if (!visited[v] && importanceMatrix[u][v] && dist[u] + importanceMatrix[u][v] < dist[v]) {
 
-        while(seq[0][1] > 0)
-        {
-            x = seq[0][0];
-            y = seq[j][0];
-
-            if(seq[j][1] != 0 && adjMatrix[x][y] != 1 && adjMatrix[y][x] != 1)
-            {
-                adjMatrix[x][y] = 1;
-                adjMatrix[y][x] = 1;
-                seq[0][1]--;
-                seq[j][1]--;
+                dist[v] = dist[u] + importanceMatrix[u][v];
             }
-
-            j++;
         }
     }
 
-    return adjMatrix;
+    for(int i = 0; i < size; ++i){
+        distanceMatrix[i] = dist[i];
+    }
+
+}
+
+std::vector<int> components(int* seq, int size)
+{
+    int nr = 0;
+    if(!GraphSeq_check(seq, size))
+    {
+        std::cout<<"Cannot create a graph from this sequence\n";
+        exit(EXIT_FAILURE);
+    }
+    std::vector<int> comp(size);
+    std::fill(comp.begin(), comp.end(), -1);
+    int** adjM = GraphSeq_to_AdjacencyMatrix(seq,size);
+    for(int i=0; i<size; i++)
+    {
+        if(comp[i] == -1)
+        {
+            nr++;
+            comp[i] = nr;
+            components_R(nr,i,adjM,comp,size);
+        }
+    }
+
+    return comp;
+
+}
+
+void components_R(int nr, int v, int** adjM, std::vector<int>& comp, int size)
+{
+    for(int i=0; i<size; i++)
+    {
+        if(adjM[v][i] && comp[i] == -1)
+        {
+            comp[i] = nr;
+            components_R(nr,i,adjM,comp,size);
+        }
+    }
 }
