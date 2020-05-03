@@ -191,11 +191,15 @@ void PrintCentrumAndMinmax(int **distanceMatrix, int size){
 
 }
 
-void KruskalMST(int **importanceMatrix, int size) {
+int** KruskalMST(int **importanceMatrix, int size) {
 
     int mincost = 0;
     int parent[size];
     int edges = 0;
+
+    int** MST = new int*[size];
+    for(int i = 0; i < size; ++i)
+        MST[i] = new int[size];
 
     for (int i = 0; i < size; i++)
         parent[i] = i;
@@ -203,6 +207,7 @@ void KruskalMST(int **importanceMatrix, int size) {
     for (int i = 0; i < size; i++) {
         for (int j = 0; j < size; j++) {
             if(importanceMatrix[i][j] == 0 ) importanceMatrix[i][j] = INT_MAX;
+            MST[i][j] = 0;
         }
     }
 
@@ -219,11 +224,19 @@ void KruskalMST(int **importanceMatrix, int size) {
         }
 
         Union(parent, a, b);
-        printf("Edge %d:(%d, %d) cost:%d \n",
-               edges++, a, b, min);
+        printf("Edge %d:(%d, %d) cost:%d \n", edges++, a, b, min);
+        MST[a][b] = MST[b][a] = 1;
         mincost += min;
     }
     printf("\n Minimum cost= %d \n", mincost);
+
+    for (int i = 0; i < size; i++) {
+        for (int j = 0; j < size; j++) {
+            if(importanceMatrix[i][j] > 10 ) importanceMatrix[i][j] = 0;
+        }
+    }
+
+    return MST;
 }
 
 int Find(int parent[], int i)
@@ -238,4 +251,59 @@ void Union(int parent[], int i, int j)
     int a = Find(parent, i);
     int b = Find(parent, j);
     parent[a] = b;
+}
+
+
+// DRAWING
+
+void DrawGraph(int** matrix, int size, int** MST, bool withMST){
+    initwindow(1200,1000);
+    int xc = 600;
+    int yc = 500;
+    const double M_PI = 3.14159265358979323846;
+
+    char node[10];
+
+    settextstyle(8 , 0 , 6);
+    setcolor(15);
+
+    for(int i = 0; i < size; i++)
+    {
+        sprintf(node, "%d", i);
+        circle(xc + 350 * cos(2*M_PI/size * i), yc + 350 * sin(2*M_PI/size * i), 5);
+        outtextxy(xc + 400 * cos(2*M_PI/size * i), yc + 400 * sin(2*M_PI/size * i), node);
+    }
+
+    for(int i = 0; i < size; i++)
+    {
+        for(int j = 0; j < size; j++)
+        {
+            if(matrix[i][j] != 0)
+            {
+                int X1 = xc + 350 * cos(2*M_PI/size * i);
+                int X2 = xc + 350 * cos(2*M_PI/size * j);
+                int Y1 = yc + 350 * sin(2*M_PI/size * i);
+                int Y2 = yc + 350 * sin(2*M_PI/size * j);
+
+                line(X1, Y1, X2, Y2);
+
+                if(withMST == true){
+                    if(MST[i][j] == 1){
+                        setcolor(2);
+                        setlinestyle(0, 1, 4);
+                        line(X1, Y1, X2, Y2);
+                        setlinestyle(0, 1, 1);
+                        setcolor(15);
+                    }
+                }
+
+
+                setcolor(4);
+                settextstyle(10, 0, 3);
+                sprintf(node, "%d", matrix[i][j]);
+                outtextxy((X1 + X2)/2, (Y1+Y2)/2, node);
+                setcolor(15);
+            }
+        }
+    }
 }

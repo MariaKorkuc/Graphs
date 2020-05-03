@@ -8,6 +8,7 @@
 #include <math.h>
 #include <fstream>
 #include <random>
+#include <graphics.h>
 
 #include "utils.h"
 
@@ -18,7 +19,8 @@ void PrintWithPath(int[], int, int[], int);
 void PrintParent(int[], int);
 int MinimumDistance(const int*, int, const bool*);
 void PrintCentrumAndMinmax(int**, int);
-void KruskalMST(int**, int);
+int** KruskalMST(int**, int);
 void Union(int[], int, int);
 int Find(int[], int);
+void DrawGraph(int**, int, int** = NULL, bool = false);
 

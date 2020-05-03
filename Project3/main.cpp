@@ -8,12 +8,14 @@ char* get_filename(int n, char* argv[]);
 int main(int argc, char* argv[])
 {
     std::cout<<"************Project 3************\n";
+    srand (time(nullptr));
     int choice;
     char c;
     bool matrixInitialized = false;
     bool distanceMatrixInitialized = false;
     int **importanceMatrix;
     int **distanceMatrix;
+    int **MST;
     int size;
     int vertex;
 
@@ -40,12 +42,14 @@ int main(int argc, char* argv[])
                 std::cout<<"Insert matrix size:";
                 std::cin>>size;
                 importanceMatrix = ConsistentRandomGraph(size);
+                DrawGraph(importanceMatrix, size);
                 matrixInitialized = true;
                 break;
             case 2:
                 filename = get_filename(argc,argv);
                 importanceMatrix = ReadMatrixFromFile(filename, size);
                 printAdjacencyMatrix(importanceMatrix, size);
+                DrawGraph(importanceMatrix, size);
                 matrixInitialized = true;
                 break;
             case 3:
@@ -84,7 +88,8 @@ int main(int argc, char* argv[])
                 break;
             case 6:
                 if(matrixInitialized){
-                    KruskalMST(importanceMatrix, size);
+                    MST = KruskalMST(importanceMatrix, size);
+                    DrawGraph(importanceMatrix, size, MST, true);
                 }
                 else {
                     std::cout<<"Graph not initialized. Initialize with 1 or 2 task."<<std::endl;
