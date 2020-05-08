@@ -1,6 +1,8 @@
 #include <iostream>
 #include <cstdio>
 #include <vector>
+#include <time.h>
+#include <unordered_set>
 #include "utils.h"
 #include "RandomGraph.h"
 
@@ -13,14 +15,15 @@ int check_col(int** incM,const int n, int num);
 int check_row(int** matrix, const int m, int num);
 
 
-//int main()
-//{
+// int main()
+// {
+//     srand(time(NULL));
 //    char choice;
-//
+
 //    do{
 //        std::cout<<"Choose model of random graph: "<<std::endl<<"Type 'p' for G(n,p) graph, 'm'  for G(n,m) graph: ";
 //        choice = getchar();
-//
+
 //        if(choice == 'p')
 //        {
 //            make_probability_graph();
@@ -34,14 +37,15 @@ int check_row(int** matrix, const int m, int num);
 //            std::cout<<"Choose available option"<<std::endl;
 //        }
 //    }while(choice != 'p' && choice != 'm');
-//
+
 //    return 0;
-//}
+// }
 
 //create graph, where probability of existence of each edge is p
 //we display adjecency matrix of random graph
 void make_probability_graph()
 {
+    srand(time(NULL));
     int n=0;
     float p;
     std::cout<<std::endl<<"Insert number of vertices: ";
@@ -99,12 +103,33 @@ void make_probability_graph()
 
 }
 
+struct pair_hash
+{
+	template <class T1, class T2>
+	std::size_t operator () (std::pair<T1, T2> const &pair) const
+	{
+		std::size_t h1 = std::hash<T1>()(pair.first);
+		std::size_t h2 = std::hash<T2>()(pair.second);
+
+		return h1 ^ h2;
+	}
+};
+
+struct pair_key
+{
+	template <class T1, class T2>
+	bool operator () (std::pair<T1, T2> const &pair1, std::pair<T1, T2> const &pair2) const
+	{
+		return (pair1.first == pair2.first && pair1.second == pair2.second) || (pair1.first == pair2.second && pair1.second == pair2.first);
+	}
+};
 
 
 //create a random graph of n vertices and m edges
 //we display incidence matrix of the graph
 void make_random_graph()
 {
+    srand(time(NULL));
     int n,m;
     std::cout<<std::endl<<"Insert number of vertices: ";
     std::cin>>n;
@@ -127,52 +152,30 @@ void make_random_graph()
     }
 
     int** incM = makeIncidenceMatrix(n, m);
-    int r,r2;
-    int count;
 
-    for(int i=0; i<n; i++)
+    std::unordered_set<std::pair<int,int>,pair_hash,pair_key> edges;
+    int f,s;
+
+    for(int i=0; i<m; i++)
     {
-        int j=0;
-        while(j<m)
-        {
-            r = rand()%2;
+        do{
+            f = rand()%n;
+            s = rand()%n;
+        }while(f==s);
 
-            //check how many ends current edge already has
-            count = check_col(incM,n,j);
-
-            //make sure each verticle has at most n-1 neighbours
-            if(check_row(incM,m,i) >= (n-1)) break;
-
-            if(count < 2)
-            {
-                //each edge must have exactly 2 ends
-                if(i == n-1)
-                {
-                    if(count == 1)
-                    {
-                        incM[i][j] = 1;
-                    }
-                    else
-                    {
-                        do{
-                            r2 = rand()%(n-1);
-                        }while(check_row(incM,m,r2) >= (n-1));
-
-                        incM[i][j] = 1;
-                        incM[r2][j] = 1;
-                    }
-                }
-                else if(r)
-                {
-                    incM[i][j] = 1;
-                }
-
-            }
-
-            j++;
-        }
-
+        auto inserted = edges.insert(std::pair<int,int>(f,s));
+        
+        if(!inserted.second) i--;
     }
+
+    int count = 0;
+    for(auto edge : edges)
+    {
+        incM[edge.first][count] = 1;
+        incM[edge.second][count] = 1;
+        count++;
+    }
+
 
     printIncidenceMatrix(incM, n, m);
     for( int i = 0; i < n; ++i )
@@ -185,7 +188,7 @@ int check_col(int** incM,const int n, int num)
     for(int i=0; i<n; i++)
     {
         if(incM[i][num]) count++;
-    }
+    } 
 
     return count;
 }
