@@ -1,5 +1,6 @@
 
 #include "project4.h"
+#define MAX_TRIALS 100
 
 
 int** randomDiGraph(int& n)
@@ -16,23 +17,44 @@ int** randomDiGraph(int& n)
         std::cin>>p;
     }while(p<0.0 || p>1.0);
 
-    int** adjM = makeAdjacencyMatrix(n);
-    float r;
+    int** adjM;
 
-    for(int i=0; i<n; i++)
-    {
-        for(int j=0; j<n; j++)
+    do{
+        adjM = makeAdjacencyMatrix(n);
+        float r;
+        int count;
+        int stop;
+
+        for(int i=0; i<n; i++)
         {
-            if(i==j) continue;
-
-            r = r_prob();
-
-            if(r<p)
+            count = 0;
+            stop = 0;
+            while(!count && stop < MAX_TRIALS)
             {
-                adjM[i][j] = 1;
+                stop++;
+                for(int j=0; j<n; j++)
+                {
+                    if(i==j) continue;
+
+                    r = r_prob();
+
+                    if(r<p)
+                    {
+                        if(!adjM[j][i])
+                        {
+                            adjM[i][j] = 1;
+                            count++;
+                        }
+                    }
+                }
             }
+            if(stop >= MAX_TRIALS)
+            {
+                std::cout<<"stop\n";
+            }
+            
         }
-    }
+    }while(componentsWithKosaraju(adjM, n) != 1);
 
     std::list<int>* lista = DiAdjacencyToList(adjM,n);
 
@@ -80,13 +102,14 @@ void Exercise4()
     srand((unsigned) time(0));
     int size;
 
-    int** matrix;
+    int** matrix = randomDiGraph(size);
 
-
+    /*
     do{
             matrix = randomDiGraph(size);
 
     }while(componentsWithKosaraju(matrix, size) != 1);
+    */
 
     int E = 0;
 
@@ -107,7 +130,7 @@ void Exercise4()
             if(matrix[i][j] == 1){
                 edges[e][0] = i;
                 edges[e][1] = j;
-                edges[e][2] = (rand() % 15) - 5;
+                edges[e][2] = (rand() % 13) - 3;
                 //edges[e][2] = (rand() % 10) + 1;
                 std::cout << "Edge: " << i << " -> " << j << "Weight: " << edges[e][2] << std::endl;
                 e++;
@@ -148,9 +171,10 @@ void Exercise4()
     edges[7][0] = 4;
     edges[7][1] = 3;
     edges[7][2] = -3;
-    */
-
+    
+*/
     BellmanFord(edges, E, size);
+    
 
 }
 
