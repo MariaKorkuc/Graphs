@@ -71,8 +71,6 @@ int** randomDiGraph(int& n)
 
 int componentsWithKosaraju(int **adjM, int n)
 {
-    //int n = 0;
-    //int** adjM = randomDiGraph(n);
 
     std::vector<int> comp = Kosaraju(adjM,n);
 
@@ -137,6 +135,7 @@ void Exercise4()
             }
         }
     }
+<<<<<<< HEAD
     /*
     int edges[7][3];
 
@@ -215,7 +214,7 @@ void BellmanFord(int edges[][3], int E, int V)
 
         if((distances[u] != INT_MAX) && (distances[u] + weight < distances[v])){
             std::cout << "Graph contains negative cycle." << std::endl;
-            //return;
+            return;
         }
 
     }
