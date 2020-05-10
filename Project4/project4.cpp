@@ -49,8 +49,6 @@ int** randomDiGraph(int& n)
 
 int componentsWithKosaraju(int **adjM, int n)
 {
-    //int n = 0;
-    //int** adjM = randomDiGraph(n);
 
     std::vector<int> comp = Kosaraju(adjM,n);
 
@@ -108,47 +106,11 @@ void Exercise4()
                 edges[e][0] = i;
                 edges[e][1] = j;
                 edges[e][2] = (rand() % 15) - 5;
-                //edges[e][2] = (rand() % 10) + 1;
-                std::cout << "Edge: " << i << " -> " << j << "Weight: " << edges[e][2] << std::endl;
                 e++;
             }
         }
     }
-    /*
-    int edges[7][3];
-
-    edges[0][0] = 0;
-    edges[0][1] = 1;
-    edges[0][2] = -1;
-
-    edges[1][0] = 0;
-    edges[1][1] = 2;
-    edges[1][2] = 4;
-
-    edges[2][0] = 1;
-    edges[2][1] = 2;
-    edges[2][2] = 3;
-
-    edges[3][0] = 1;
-    edges[3][1] = 3;
-    edges[3][2] = 2;
-
-    edges[4][0] = 1;
-    edges[4][1] = 4;
-    edges[4][2] = 2;
-
-    edges[5][0] = 3;
-    edges[5][1] = 2;
-    edges[5][2] = 5;
-
-    edges[6][0] = 3;
-    edges[6][1] = 1;
-    edges[6][2] = 1;
-
-    edges[7][0] = 4;
-    edges[7][1] = 3;
-    edges[7][2] = -3;
-    */
+   
 
     BellmanFord(edges, E, size);
 
@@ -191,7 +153,7 @@ void BellmanFord(int edges[][3], int E, int V)
 
         if((distances[u] != INT_MAX) && (distances[u] + weight < distances[v])){
             std::cout << "Graph contains negative cycle." << std::endl;
-            //return;
+            return;
         }
 
     }
