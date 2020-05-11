@@ -280,8 +280,8 @@ void Johnson(int edges[][3], int size, int e){
             h[i] = distanc[i];
         }     
 
-        for(int i = 0; i < e + size; i++){
-                //edges2[i][3] = edges2[i][3] + h[edges2[i][0]] - h[edges2[i][1]];
+        for(int i = 0; i < size; i++){
+                edges2[i][3] = edges2[i][3] + h[edges2[i][0]] - h[edges2[i][1]];
         }
 
         int D[size][size];
