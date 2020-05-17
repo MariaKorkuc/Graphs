@@ -22,7 +22,7 @@ int main()
     bool flag = true;
     std::cout<<"----------------------------- 1 ------------------------------------"<<std::endl;
     std::cout<<std::endl;
-    std::cout<<"Podaj rozmiar macierzy:";
+    std::cout<<"Set number of vertices:";
     std::cin>>size;
     int seq[size];
     while(flag) {
@@ -87,7 +87,10 @@ int main()
     std::cout<<std::endl;
     std::cout<<"----------------------------- 2 ------------------------------------"<<std::endl;
     std::cout<<std::endl;
-    dijkstra(importanceMatrix, size, 0);
+    int initVertex = 0;
+    std::cout<<"Choose init vertex: ";
+    std::cin>>initVertex;
+    dijkstra(importanceMatrix, size, initVertex);
     std::cout<<std::endl;
     std::cout<<std::endl;
     std::cout<<"----------------------------- 3 ------------------------------------"<<std::endl;
@@ -115,7 +118,7 @@ void printParent(int parent[], int i){
     if (parent[i] == - 1)
         return;
     printParent(parent, parent[i]);
-    printf("%d ", i);
+    printf(" -> %d", i);
 }
 
 void printWithPath(int dist[], int size, int parent[], int initVertex){
@@ -124,11 +127,13 @@ void printWithPath(int dist[], int size, int parent[], int initVertex){
     std::cout<<std::setw(10)<<"Path";
     std::cout<<std::endl;
     for (int i = 0; i < size; i++){
-        std::cout<<std::setw(0)<<initVertex<<"->"<<i;
-        std::cout<<std::setw(6)<<dist[i];
-        std::cout<<std::setw(12)<<"";
-        printParent(parent,i);
-        std::cout<<std::endl;
+        if(i != initVertex) {
+            std::cout << std::setw(0) << initVertex << "->" << i;
+            std::cout << std::setw(6) << dist[i];
+            std::cout << std::setw(12) << initVertex << "";
+            printParent(parent, i);
+            std::cout << std::endl;
+        }
     }
 }
 
@@ -137,7 +142,7 @@ void dijkstra(int **importanceMatrix, int size, int initVertex){
     bool visited[size];
     int parent[size];
     for (int i = 0; i < size; i++){
-        parent[0] = -1;
+        parent[initVertex] = -1;
         dist[i] = INT_MAX;
         visited[i] = false;
     }
@@ -165,9 +170,7 @@ void dijkstra(int **importanceMatrix, int size, int initVertex){
 void dijkstra(int** importanceMatrix,int size,int initVertex, int* distanceMatrix) {
     int dist[size];
     bool visited[size];
-    int parent[size];
     for (int i = 0; i < size; i++){
-        parent[0] = -1;
         dist[i] = INT_MAX;
         visited[i] = false;
     }
@@ -181,7 +184,7 @@ void dijkstra(int** importanceMatrix,int size,int initVertex, int* distanceMatri
 
         for (int v = 0; v < size; v++) {
             if (!visited[v] && importanceMatrix[u][v] && dist[u] + importanceMatrix[u][v] < dist[v]) {
-                parent[v] = u;
+
                 dist[v] = dist[u] + importanceMatrix[u][v];
             }
         }
