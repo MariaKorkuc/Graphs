@@ -1,3 +1,4 @@
+
 #include "utils.h"
 
 #include <iostream>
@@ -312,7 +313,7 @@ int count_components(int** adjM, int n)
     int count;
 
     for(int i=0; i<n;i++)
-    {   
+    {
         count = 0;
         for(int j=0; j<n;j++)
         {
@@ -336,15 +337,15 @@ int next_neighbour(int** adjM,int n,int v,int& nr)
     int count = 0;
     int i=-1;
 
-    //we need to get to the nr-th neighbour (count) 
-    //and we need to keep i in n bounds 
+    //we need to get to the nr-th neighbour (count)
+    //and we need to keep i in n bounds
     while(count < nr)
     {
         i++;
         if(i==n) break;
         if(adjM[v][i]) count++;
     }
-    // if (v==4) std::cout<<"count = "<<count<<"i = "<<i<<"\n"; 
+    // if (v==4) std::cout<<"count = "<<count<<"i = "<<i<<"\n";
 
     //in case nt-th neighbour doesn't exist
     if(i==n)
@@ -354,7 +355,7 @@ int next_neighbour(int** adjM,int n,int v,int& nr)
         i = next_neighbour(adjM,n,v,nr);
         //we need to let know if the nr-th neighbour is not found
         nr = -1;
-    } 
+    }
 
     //return the index of found neighbour
     return i;
@@ -368,7 +369,7 @@ bool is_bridge(int** adjM, int size, int v, int u)
     removeEdge(v,u,adjM);
     //-||- after
     int count_second = count_components(adjM,size);
-    
+
     //if number of components is different => the edge is a bridge
     if(count_first != count_second) ans = true;
     addEdge(v,u,adjM);
@@ -458,10 +459,10 @@ std::vector<int> Kosaraju(int** adjM, int n)
             comp[v] = nr;
             components_R(nr, v, Gt, comp, n);
         }
-        
+
         k++;
     }
-    
+
     for(int i=0; i<n; i++)
     {
         delete [] Gt;
@@ -507,7 +508,7 @@ int max_ind(std::vector<int>& vec)
     for(unsigned int i=1; i<vec.size(); i++)
     {
         if(vec[i] > vec[max]) max = i;
-    } 
+    }
 
     vec[max] = -1;
 

@@ -1,3 +1,4 @@
+
 #pragma once
 
 #include <list>
@@ -40,7 +41,7 @@ u - index of second vertex
 */
 bool is_bridge(int** adjM, int size, int v,int u);
 
-/* arguments: adjacency matrix, n - number of vertices, 
+/* arguments: adjacency matrix, n - number of vertices,
 v - current vertex, which neighbour we're looking for,
 nr - number of neighbour we're looking for (e.g. in case previous is a bridge) */
 int next_neighbour(int** adjM,int n,int v,int& nr);
